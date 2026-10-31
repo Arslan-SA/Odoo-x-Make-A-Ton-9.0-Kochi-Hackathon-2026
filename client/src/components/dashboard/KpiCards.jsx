@@ -56,20 +56,20 @@ function KpiCard({ label, icon: Icon, value, hint, index }) {
   const isConnected = value !== null && value !== undefined
 
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+    <div className="rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#121216] p-5 shadow-sm transition-all hover:shadow-md hover:border-zinc-300 dark:hover:border-zinc-700">
       <div className="flex items-start justify-between gap-3">
-        <p className="text-sm font-medium text-slate-500">{label}</p>
+        <p className="text-sm font-medium text-slate-500 dark:text-zinc-400">{label}</p>
         <span
-          className="flex size-9 shrink-0 animate-icon-float items-center justify-center rounded-lg bg-indigo-50 text-indigo-600 motion-reduce:animate-none"
+          className="flex size-9 shrink-0 animate-icon-float items-center justify-center rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 motion-reduce:animate-none"
           style={{ animationDelay: `${index * 400}ms` }}
         >
           <Icon className="size-4.5" aria-hidden="true" />
         </span>
       </div>
-      <p className="mt-3 text-2xl font-semibold tracking-tight text-[#0B1A35]">
+      <p className="mt-3 text-2xl font-semibold tracking-tight text-[#0B1A35] dark:text-white">
         {isConnected ? value : '—'}
       </p>
-      <p className="mt-1 text-xs text-slate-500">
+      <p className="mt-1 text-xs text-slate-500 dark:text-zinc-500">
         {isConnected ? hint : 'Not connected'}
       </p>
     </div>
