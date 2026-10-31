@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const { validatePassword } = require('../utils/password');
+const { validateEmail } = require('../utils/emailValidator');
 
 const userSchema = new mongoose.Schema(
     {
@@ -16,7 +17,14 @@ const userSchema = new mongoose.Schema(
             unique: true,
             lowercase: true,
             trim: true,
-            match: [/^\S+@\S+\.\S+$/, 'Enter a valid email address'],
+            validate: {
+                validator(value) {
+                    return validateEmail(value) === null;
+                },
+                message(props) {
+                    return validateEmail(props.value) || 'Enter a valid email address';
+                },
+            },
         },
         password: {
             type: String,
