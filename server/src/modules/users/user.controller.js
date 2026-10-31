@@ -1,5 +1,6 @@
 const User = require('../../models/User');
 const { validatePassword } = require('../../utils/password');
+const { validateEmail } = require('../../utils/emailValidator');
 const publicUser = require('../../utils/publicUser');
 
 const normalizeEmail = (email = '') => String(email).trim().toLowerCase();
@@ -46,6 +47,11 @@ exports.createStaff = async (req, res) => {
                 success: false,
                 message: 'Name, email and password are required',
             });
+        }
+
+        const emailError = validateEmail(email);
+        if (emailError) {
+            return res.status(400).json({ success: false, message: emailError });
         }
 
         const passwordError = validatePassword(password);

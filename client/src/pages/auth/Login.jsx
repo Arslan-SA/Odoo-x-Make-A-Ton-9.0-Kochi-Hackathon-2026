@@ -5,6 +5,7 @@ import AuthLayout from '../../components/auth/AuthLayout'
 import FormField from '../../components/auth/FormField'
 import { useAuth } from '../../context/auth-context'
 import { getApiError } from '../../utils/apiError'
+import { validateEmail } from '../../utils/email'
 import { roleHome } from '../../utils/roleHome'
 
 const DEMO_ACCOUNTS = [
@@ -30,6 +31,13 @@ export default function Login() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setError('')
+
+    const emailError = validateEmail(email)
+    if (emailError) {
+      setError(emailError)
+      return
+    }
+
     setSubmitting(true)
 
     try {

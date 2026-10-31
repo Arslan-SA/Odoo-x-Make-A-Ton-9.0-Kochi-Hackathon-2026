@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const User = require('../../models/User');
 const { JWT_SECRET, JWT_EXPIRES_IN } = require('../../config/auth');
 const { validatePassword } = require('../../utils/password');
+const { validateEmail } = require('../../utils/emailValidator');
 const { sendPasswordResetEmail, isEmailConfigured } = require('../../utils/email');
 const publicUser = require('../../utils/publicUser');
 
@@ -28,6 +29,11 @@ exports.register = async (req, res) => {
                 success: false,
                 message: 'Name, email and password are required',
             });
+        }
+
+        const emailError = validateEmail(email);
+        if (emailError) {
+            return res.status(400).json({ success: false, message: emailError });
         }
 
         const passwordError = validatePassword(password);
@@ -88,6 +94,11 @@ exports.login = async (req, res) => {
             });
         }
 
+        const emailError = validateEmail(email);
+        if (emailError) {
+            return res.status(400).json({ success: false, message: emailError });
+        }
+
         const user = await User.findOne({ email: normalizeEmail(email) }).select('+password');
 
         if (!user || !user.isActive) {
@@ -138,10 +149,12 @@ exports.forgotPassword = async (req, res) => {
     };
 
     try {
-        const email = normalizeEmail(req.body.email);
-        if (!email) {
-            return res.status(400).json({ success: false, message: 'Email is required' });
+        const rawEmail = req.body.email;
+        const emailError = validateEmail(rawEmail);
+        if (emailError) {
+            return res.status(400).json({ success: false, message: emailError });
         }
+        const email = normalizeEmail(rawEmail);
 
         const user = await User.findOne({ email });
         if (!user || !user.isActive) {

@@ -6,6 +6,7 @@ import FormField from '../../components/auth/FormField'
 import { useAuth } from '../../context/auth-context'
 import { getApiError } from '../../utils/apiError'
 import { validatePassword, PASSWORD_HINT } from '../../utils/password'
+import { validateEmail } from '../../utils/email'
 import { roleHome } from '../../utils/roleHome'
 
 export default function Register() {
@@ -33,6 +34,12 @@ export default function Register() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     setError('')
+
+    const emailError = validateEmail(form.email)
+    if (emailError) {
+      setError(emailError)
+      return
+    }
 
     const passwordError = validatePassword(form.password)
     if (passwordError) {
