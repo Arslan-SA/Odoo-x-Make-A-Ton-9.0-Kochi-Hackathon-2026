@@ -51,17 +51,34 @@ export default function Login() {
 
   return (
     <AuthLayout>
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-[#0B1A35]">Welcome back</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Sign in to manage subscriptions, invoices and your catalog.
+      {/* Title & Subtitle */}
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight text-white">Welcome back</h2>
+        <p className="mt-1 text-sm text-zinc-400">
+          Sign in to your account
         </p>
+      </div>
+
+      {/* Segmented Control: Create account / Sign in */}
+      <div className="mt-5 mb-5 flex rounded-xl bg-[#1c1c22] p-1 border border-zinc-800/80">
+        <Link
+          to="/register"
+          className="flex-1 rounded-lg py-1.5 text-center text-xs font-medium text-zinc-400 transition hover:text-white"
+        >
+          Create account
+        </Link>
+        <button
+          type="button"
+          className="flex-1 rounded-lg bg-[#2b2b33] py-1.5 text-center text-xs font-medium text-white shadow-xs"
+        >
+          Sign in
+        </button>
       </div>
 
       {error && (
         <div
           role="alert"
-          className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          className="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 px-3.5 py-2.5 text-xs text-red-300"
         >
           {error}
         </div>
@@ -74,7 +91,7 @@ export default function Login() {
           type="email"
           value={email}
           onChange={(event) => setEmail(event.target.value)}
-          placeholder="you@company.com"
+          placeholder="you@example.com"
           autoComplete="email"
           required
         />
@@ -85,14 +102,14 @@ export default function Login() {
           type={showPassword ? 'text' : 'password'}
           value={password}
           onChange={(event) => setPassword(event.target.value)}
-          placeholder="Your password"
+          placeholder="Enter password"
           autoComplete="current-password"
           required
           trailing={
             <button
               type="button"
               onClick={() => setShowPassword((visible) => !visible)}
-              className="rounded-md p-2 text-slate-400 transition-colors hover:text-slate-600"
+              className="rounded-md p-1.5 text-zinc-400 transition hover:text-zinc-200"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
@@ -104,51 +121,43 @@ export default function Login() {
           }
         />
 
-        <div className="-mt-1 flex justify-end">
-          <Link
-            to="/forgot-password"
-            className="text-xs font-medium text-indigo-600 transition-colors hover:text-indigo-500"
-          >
-            Forgot password?
-          </Link>
-        </div>
-
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-zinc-950 shadow-md transition-all hover:bg-zinc-100 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
           {submitting ? 'Signing in…' : 'Sign in'}
         </button>
+
+        <div className="text-right">
+          <Link
+            to="/forgot-password"
+            className="text-xs text-zinc-400 transition hover:text-zinc-200"
+          >
+            Forgot password?
+          </Link>
+        </div>
       </form>
 
-      <div className="mt-6 rounded-xl border border-slate-200 bg-white/70 p-4">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">Demo accounts</p>
-        <div className="mt-3 flex flex-wrap gap-2">
+      {/* Demo Accounts Pill List */}
+      <div className="mt-6 pt-5 border-t border-zinc-800/60">
+        <p className="text-[10px] font-semibold uppercase tracking-wider text-zinc-500">
+          Demo accounts
+        </p>
+        <div className="mt-2.5 flex flex-wrap gap-2">
           {DEMO_ACCOUNTS.map((account) => (
             <button
               key={account.email}
               type="button"
               onClick={() => fillDemo(account)}
-              className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700"
+              className="rounded-lg border border-zinc-700/60 bg-zinc-800/40 px-2.5 py-1 text-xs font-medium text-zinc-300 transition-colors hover:border-zinc-500 hover:bg-zinc-700/60 hover:text-white"
             >
               {account.label}
             </button>
           ))}
         </div>
-        <p className="mt-2 text-xs leading-5 text-slate-400">
-          Run <code className="rounded bg-slate-100 px-1 py-0.5">npm run seed:auth</code> in{' '}
-          <code className="rounded bg-slate-100 px-1 py-0.5">server/</code> to create them.
-        </p>
       </div>
-
-      <p className="mt-6 text-center text-sm text-slate-500">
-        New to Brightloop?{' '}
-        <Link to="/signup" className="font-semibold text-indigo-600 hover:text-indigo-500">
-          Create an account
-        </Link>
-      </p>
     </AuthLayout>
   )
 }
