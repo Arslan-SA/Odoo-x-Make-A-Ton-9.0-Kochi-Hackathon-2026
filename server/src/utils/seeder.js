@@ -236,7 +236,7 @@ async function seedAll(options = {}) {
         const paidAmount = inv.paidAmount || (inv.status === 'PAID' ? grandTotal : 0);
         const balanceDue = Number(Math.max(0, grandTotal - paidAmount).toFixed(2));
 
-        await Invoice.create({
+        const createdInvoice = await Invoice.create({
           invNumber: inv.invNumber,
           subscriptionId: subscription._id,
           customerId: fallbackCustomerId,
@@ -252,6 +252,17 @@ async function seedAll(options = {}) {
           balanceDue,
         });
         demoInvoicesCount++;
+
+        if (paidAmount > 0) {
+          await Payment.create({
+            invoiceId: createdInvoice._id,
+            customerId: fallbackCustomerId,
+            amount: paidAmount,
+            method: 'BANK_TRANSFER',
+            paymentDate: issueDate,
+            note: 'Initial settlement via NEFT/RTGS',
+          });
+        }
       }
     }
   }

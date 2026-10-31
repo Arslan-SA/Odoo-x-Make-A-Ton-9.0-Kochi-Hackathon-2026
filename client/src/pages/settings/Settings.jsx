@@ -69,12 +69,12 @@ export default function AdminSettings() {
         ].map((item) => (
           <div
             key={item.label}
-            className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm"
+            className="rounded-2xl border border-slate-200 bg-white px-5 py-4 shadow-sm dark:border-zinc-800 dark:bg-[#0E0E12]"
           >
-            <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
+            <p className="text-xs font-medium uppercase tracking-wide text-slate-400 dark:text-zinc-500">
               {item.label}
             </p>
-            <p className="mt-1 text-2xl font-semibold text-[#0B1A35]">{item.value}</p>
+            <p className="mt-1 text-2xl font-semibold text-[#0B1A35] dark:text-white">{item.value}</p>
           </div>
         ))}
       </div>

@@ -58,21 +58,21 @@ export default function StaffSection({ staff, onChanged }) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-zinc-800 dark:bg-[#0E0E12]">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600">
+          <span className="flex size-10 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600 dark:bg-indigo-950/60 dark:text-indigo-400">
             <Users className="size-5" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="text-base font-semibold">Staff accounts</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="text-base font-semibold text-[#0B1A35] dark:text-white">Staff accounts</h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
               Staff can run catalog, subscription and billing operations, but cannot change
               workspace settings.
             </p>
           </div>
         </div>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-zinc-800 dark:text-zinc-300">
           {staff.length} {staff.length === 1 ? 'member' : 'members'}
         </span>
       </div>
@@ -139,26 +139,26 @@ export default function StaffSection({ staff, onChanged }) {
         </div>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
+      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800">
         {staff.length === 0 ? (
-          <p className="px-4 py-6 text-sm text-slate-500">
+          <p className="px-4 py-6 text-sm text-slate-500 dark:text-zinc-400">
             No staff accounts yet. Add the first one above.
           </p>
         ) : (
-          <ul className="divide-y divide-slate-100">
+          <ul className="divide-y divide-slate-100 dark:divide-zinc-800">
             {staff.map((member) => (
               <li
                 key={member.id}
-                className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-center sm:justify-between dark:hover:bg-zinc-850/50"
               >
                 <div>
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium text-[#0B1A35] dark:text-white">
                     {member.name}
-                    <span className="ml-2 rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700">
+                    <span className="ml-2 rounded-full bg-sky-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-700 dark:bg-sky-950/60 dark:text-sky-300">
                       staff
                     </span>
                   </p>
-                  <p className="mt-0.5 text-xs text-slate-500">
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-zinc-400">
                     {member.email}
                     {member.company ? ` · ${member.company}` : ''}
                   </p>
@@ -166,7 +166,7 @@ export default function StaffSection({ staff, onChanged }) {
                 <div className="flex items-center gap-3">
                   <span
                     className={`text-xs font-semibold ${
-                      member.isActive ? 'text-emerald-600' : 'text-slate-400'
+                      member.isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400 dark:text-zinc-500'
                     }`}
                   >
                     {member.isActive ? 'Active' : 'Disabled'}
@@ -175,7 +175,7 @@ export default function StaffSection({ staff, onChanged }) {
                     type="button"
                     onClick={() => toggleStatus(member)}
                     disabled={togglingId === member.id}
-                    className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-60"
+                    className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 disabled:opacity-60 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
                   >
                     {togglingId === member.id
                       ? 'Updating…'

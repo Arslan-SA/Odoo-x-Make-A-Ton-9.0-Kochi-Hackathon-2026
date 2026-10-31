@@ -10,6 +10,8 @@ import InternalDashboard from './pages/internal/Dashboard'
 import Subscriptions from './pages/subscriptions/Subscriptions'
 import Catalog from './pages/catalog/Catalog'
 import Invoices from './pages/invoices/Invoices'
+import Payments from './pages/payments/Payments'
+import FinanceReports from './pages/finance/FinanceReports'
 import AdminSettings from './pages/settings/Settings'
 import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/auth/ProtectedRoute'
@@ -76,6 +78,22 @@ export default function App() {
               element={
                 <ProtectedRoute roles={['admin', 'staff']}>
                   <Invoices />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/payments"
+              element={
+                <ProtectedRoute roles={['admin', 'staff']}>
+                  <Payments />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/finance-reports"
+              element={
+                <ProtectedRoute roles={['admin', 'staff']}>
+                  <FinanceReports />
                 </ProtectedRoute>
               }
             />

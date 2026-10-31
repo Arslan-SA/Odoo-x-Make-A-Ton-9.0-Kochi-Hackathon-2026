@@ -13,8 +13,8 @@ export const DASHBOARD_NAV = [
   { label: 'Catalog & Plans', href: '/catalog', icon: Package, available: true },
   { label: 'Subscriptions', href: '/subscriptions', icon: Repeat, available: true },
   { label: 'Invoices', href: '/invoices', icon: FileText, available: true },
-  { label: 'Payments', href: '/payments', icon: CreditCard, available: false },
-  { label: 'Finance Reports', href: '/finance-reports', icon: BarChart3, available: false },
+  { label: 'Payments', href: '/payments', icon: CreditCard, available: true },
+  { label: 'Finance Reports', href: '/finance-reports', icon: BarChart3, available: true },
   { label: 'Settings', href: '/settings', icon: Settings, available: true, roles: ['admin'] },
 ]
 

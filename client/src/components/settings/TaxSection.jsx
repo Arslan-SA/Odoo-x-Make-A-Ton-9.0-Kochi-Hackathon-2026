@@ -43,21 +43,21 @@ export default function TaxSection({ taxes, onChanged }) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-zinc-800 dark:bg-[#0E0E12]">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600">
+          <span className="flex size-10 items-center justify-center rounded-xl bg-amber-50 text-amber-600 dark:bg-amber-950/60 dark:text-amber-400">
             <Percent className="size-5" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="text-base font-semibold">Tax rules</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="text-base font-semibold text-[#0B1A35] dark:text-white">Tax rules</h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
               Tax rates used when quotations and invoices are calculated. One rule can be the
               default.
             </p>
           </div>
         </div>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-zinc-800 dark:text-zinc-300">
           {taxes.length} {taxes.length === 1 ? 'rule' : 'rules'}
         </span>
       </div>
@@ -123,28 +123,28 @@ export default function TaxSection({ taxes, onChanged }) {
         </div>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
+      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800">
         {taxes.length === 0 ? (
-          <p className="px-4 py-6 text-sm text-slate-500">No tax rules yet.</p>
+          <p className="px-4 py-6 text-sm text-slate-500 dark:text-zinc-400">No tax rules yet.</p>
         ) : (
-          <ul className="divide-y divide-slate-100">
+          <ul className="divide-y divide-slate-100 dark:divide-zinc-800">
             {taxes.map((tax) => (
               <li
                 key={tax._id}
-                className="flex items-center justify-between gap-4 px-4 py-4"
+                className="flex items-center justify-between gap-4 px-4 py-4 dark:hover:bg-zinc-850/50"
               >
                 <div>
-                  <p className="text-sm font-medium">{tax.name}</p>
-                  <p className="mt-0.5 text-xs text-slate-500">
+                  <p className="text-sm font-medium text-[#0B1A35] dark:text-white">{tax.name}</p>
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-zinc-400">
                     {tax.isDefault ? 'Default rate' : 'Optional rate'}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-lg font-semibold text-[#0B1A35]">
+                  <span className="text-lg font-semibold text-[#0B1A35] dark:text-white">
                     {tax.ratePercent}%
                   </span>
                   {tax.isDefault && (
-                    <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700">
+                    <span className="rounded-full bg-amber-50 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-amber-700 dark:bg-amber-950/60 dark:text-amber-300">
                       default
                     </span>
                   )}

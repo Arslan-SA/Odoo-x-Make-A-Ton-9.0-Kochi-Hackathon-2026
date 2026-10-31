@@ -144,6 +144,14 @@ export default function Invoices() {
   const [runBusy, setRunBusy] = useState(false)
   const [runSummary, setRunSummary] = useState(null)
 
+  // Quick Payment state
+  const [payModalOpen, setPayModalOpen] = useState(false)
+  const [payAmount, setPayAmount] = useState('')
+  const [payMethod, setPayMethod] = useState('BANK_TRANSFER')
+  const [payNote, setPayNote] = useState('')
+  const [payBusy, setPayBusy] = useState(false)
+  const [payError, setPayError] = useState('')
+
   useEffect(() => {
     let active = true
 
@@ -203,6 +211,38 @@ export default function Invoices() {
       setRunConfirmOpen(false)
     } finally {
       setRunBusy(false)
+    }
+  }
+
+  const handleRecordPayment = async (e) => {
+    e.preventDefault()
+    if (!detail) return
+    const amt = Number(payAmount)
+    if (!amt || amt <= 0) {
+      setPayError('Please enter a valid positive amount.')
+      return
+    }
+
+    try {
+      setPayBusy(true)
+      setPayError('')
+      await billingApi.recordPayment({
+        invoiceId: detail._id,
+        amount: amt,
+        method: payMethod,
+        note: payNote,
+      })
+
+      // Refresh current detail
+      const { data } = await billingApi.getInvoiceById(detail._id)
+      setDetail(data.data)
+      setPayModalOpen(false)
+      setNotice(`Payment of ${formatCurrency(amt)} recorded against ${detail.invNumber}.`)
+      setReloadKey((v) => v + 1)
+    } catch (err) {
+      setPayError(getApiError(err, 'Failed to record payment.'))
+    } finally {
+      setPayBusy(false)
     }
   }
 
@@ -478,10 +518,103 @@ export default function Invoices() {
                     No payments recorded for this invoice.
                   </div>
                 )}
+                {detail.status !== 'PAID' && detail.balanceDue > 0 && (
+                  <div className="mt-4 pt-3 border-t border-slate-100 dark:border-zinc-800">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setPayAmount(detail.balanceDue)
+                        setPayMethod('BANK_TRANSFER')
+                        setPayNote('')
+                        setPayError('')
+                        setPayModalOpen(true)
+                      }}
+                      className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-3.5 py-2 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-emerald-500"
+                    >
+                      <CreditCard className="size-3.5" aria-hidden="true" />
+                      Record Payment ({formatCurrency(detail.balanceDue)})
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
         ) : null}
+      </Modal>
+
+      <Modal
+        open={payModalOpen}
+        onClose={() => setPayModalOpen(false)}
+        title={`Record Payment for ${detail?.invNumber || 'Invoice'}`}
+        description={`Remaining balance due: ${formatCurrency(detail?.balanceDue || 0)}`}
+      >
+        <form onSubmit={handleRecordPayment} className="space-y-4">
+          {payError && <Notice tone="error">{payError}</Notice>}
+
+          <div className="space-y-1">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+              Payment Amount (₹)
+            </label>
+            <input
+              type="number"
+              step="0.01"
+              min="1"
+              max={detail?.balanceDue}
+              required
+              value={payAmount}
+              onChange={(e) => setPayAmount(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+              Payment Method
+            </label>
+            <select
+              value={payMethod}
+              onChange={(e) => setPayMethod(e.target.value)}
+              className={inputClass}
+            >
+              <option value="BANK_TRANSFER">Bank Transfer (NEFT/RTGS/IMPS)</option>
+              <option value="CREDIT_CARD">Credit / Debit Card</option>
+              <option value="UPI">UPI / NetBanking</option>
+              <option value="CASH">Cash</option>
+              <option value="CHEQUE">Cheque</option>
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
+              Reference / Note
+            </label>
+            <input
+              type="text"
+              placeholder="e.g. UTR # or Cheque number"
+              value={payNote}
+              onChange={(e) => setPayNote(e.target.value)}
+              className={inputClass}
+            />
+          </div>
+
+          <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-zinc-800">
+            <button
+              type="button"
+              onClick={() => setPayModalOpen(false)}
+              className="rounded-xl border border-slate-200 px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-50 dark:border-zinc-700 dark:text-zinc-300 dark:hover:bg-zinc-800"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              disabled={payBusy}
+              className="inline-flex items-center gap-1.5 rounded-xl bg-emerald-600 px-4 py-2 text-xs font-semibold text-white shadow-sm hover:bg-emerald-500 disabled:opacity-50"
+            >
+              {payBusy ? <Loader2 className="size-3.5 animate-spin" /> : <CreditCard className="size-3.5" />}
+              Confirm Payment
+            </button>
+          </div>
+        </form>
       </Modal>
 
       <ConfirmDialog

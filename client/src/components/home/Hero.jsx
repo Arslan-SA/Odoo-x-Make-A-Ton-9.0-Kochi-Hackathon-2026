@@ -1,4 +1,5 @@
 import { ArrowRight } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import DashboardPreview from './DashboardPreview'
 import scrollToSection from '../../utils/scrollToSection'
 
@@ -33,8 +34,8 @@ export default function Hero() {
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
-            <button
-              type="button"
+            <Link
+              to="/signup"
               className="group inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-6 py-3 text-sm font-medium text-white shadow-lg shadow-indigo-600/25 transition-all hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-xl sm:w-auto"
             >
               Get Started
@@ -42,7 +43,7 @@ export default function Hero() {
                 className="size-4 transition-transform group-hover:translate-x-0.5"
                 aria-hidden="true"
               />
-            </button>
+            </Link>
             <button
               type="button"
               onClick={() => scrollToSection('features')}
