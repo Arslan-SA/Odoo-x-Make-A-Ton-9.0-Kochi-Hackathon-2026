@@ -4,6 +4,7 @@ import FormField from '../auth/FormField'
 import { userApi } from '../../services/api'
 import { getApiError } from '../../utils/apiError'
 import { validatePassword, PASSWORD_HINT } from '../../utils/password'
+import { validateEmail } from '../../utils/email'
 
 const EMPTY_FORM = { name: '', email: '', company: '', password: '' }
 
@@ -22,6 +23,12 @@ export default function StaffSection({ staff, onChanged }) {
     event.preventDefault()
     setError('')
     setNotice('')
+
+    const emailError = validateEmail(form.email)
+    if (emailError) {
+      setError(emailError)
+      return
+    }
 
     const passwordError = validatePassword(form.password)
     if (passwordError) {

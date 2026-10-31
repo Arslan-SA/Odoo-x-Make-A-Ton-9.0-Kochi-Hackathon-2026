@@ -5,6 +5,7 @@ const publicUser = (user) => ({
     role: user.role,
     company: user.company,
     isActive: user.isActive,
+    isEmailVerified: user.isEmailVerified !== false,
     lastLoginAt: user.lastLoginAt,
     createdAt: user.createdAt,
 });
