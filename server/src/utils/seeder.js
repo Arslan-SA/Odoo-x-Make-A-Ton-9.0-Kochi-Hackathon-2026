@@ -23,7 +23,7 @@ const { demoSubscriptions, benchmarkConfig } = require('./fixtures/subscriptions
 const DEMO_USERS = [
   {
     name: 'Brightloop Admin',
-    email: 'admin@brightloop.dev',
+    email: 'admin@brightloop.com',
     password: 'Admin@12345',
     role: 'admin',
     company: 'Brightloop',
@@ -31,7 +31,7 @@ const DEMO_USERS = [
   },
   {
     name: 'Demo Customer',
-    email: 'customer@brightloop.dev',
+    email: 'customer@brightloop.com',
     password: 'Customer@12345',
     role: 'customer',
     company: 'Acme Retail',
@@ -39,7 +39,7 @@ const DEMO_USERS = [
   },
   {
     name: 'Demo Staff',
-    email: 'staff@brightloop.dev',
+    email: 'staff@brightloop.com',
     password: 'Staff@12345',
     role: 'staff',
     company: 'Brightloop',
@@ -81,7 +81,7 @@ async function seedAll(options = {}) {
 
   // 1. Ensure Auth Users exist
   await ensureAuthUsers(log);
-  const demoCustomer = await User.findOne({ email: 'customer@brightloop.dev' }).lean();
+  const demoCustomer = await User.findOne({ email: 'customer@brightloop.com' }).lean();
   const fallbackCustomerId = demoCustomer?._id || new mongoose.Types.ObjectId();
 
   // 2. Clear Collections if requested

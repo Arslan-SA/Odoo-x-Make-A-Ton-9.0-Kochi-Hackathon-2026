@@ -202,12 +202,35 @@ exports.getInvoiceById = async (req, res) => {
     }
 };
 
+/**
+ * Invoice State Machine & Actions:
+ * DRAFT → CONFIRMED → PAID (also CANCELLED from DRAFT or CONFIRMED)
+ */
+const VALID_INVOICE_TRANSITIONS = {
+    DRAFT: ['CONFIRMED', 'CANCELLED'],
+    CONFIRMED: ['PAID', 'CANCELLED'],
+    PAID: [],       // Terminal
+    CANCELLED: [],  // Terminal
+};
+
 // Move Invoice: DRAFT -> CONFIRMED -> PAID (or CANCELLED)
 exports.updateInvoiceStatus = async (req, res) => {
     try {
         const { status } = req.body;
+        if (!status) {
+            return res.status(400).json({ success: false, message: 'Target status is required' });
+        }
+
         const invoice = await Invoice.findById(req.params.id);
         if (!invoice) return res.status(404).json({ success: false, message: 'Invoice not found' });
+
+        const allowedNext = VALID_INVOICE_TRANSITIONS[invoice.status] || [];
+        if (!allowedNext.includes(status)) {
+            return res.status(400).json({
+                success: false,
+                message: `Invalid invoice transition from ${invoice.status} to ${status}`,
+            });
+        }
 
         invoice.status = status;
         if (status === 'PAID') {

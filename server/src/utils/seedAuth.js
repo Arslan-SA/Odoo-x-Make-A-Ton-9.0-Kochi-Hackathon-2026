@@ -6,7 +6,7 @@ const User = require('../models/User');
 const DEMO_USERS = [
     {
         name: 'Brightloop Admin',
-        email: 'admin@brightloop.dev',
+        email: 'admin@brightloop.com',
         password: 'Admin@12345',
         role: 'admin',
         company: 'Brightloop',
@@ -14,7 +14,7 @@ const DEMO_USERS = [
     },
     {
         name: 'Demo Customer',
-        email: 'customer@brightloop.dev',
+        email: 'customer@brightloop.com',
         password: 'Customer@12345',
         role: 'customer',
         company: 'Acme Retail',
@@ -22,7 +22,7 @@ const DEMO_USERS = [
     },
     {
         name: 'Demo Staff',
-        email: 'staff@brightloop.dev',
+        email: 'staff@brightloop.com',
         password: 'Staff@12345',
         role: 'staff',
         company: 'Brightloop',

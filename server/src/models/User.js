@@ -29,7 +29,7 @@ const userSchema = new mongoose.Schema(
         password: {
             type: String,
             required: [true, 'Password is required'],
-            minlength: [8, 'Password must be at least 8 characters'],
+            minlength: [9, 'Password must be at least 9 characters'],
             select: false,
             validate: {
                 // Only enforce the policy when a new plain-text password is being set.

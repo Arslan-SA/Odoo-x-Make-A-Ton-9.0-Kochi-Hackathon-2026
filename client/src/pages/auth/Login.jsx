@@ -10,9 +10,9 @@ import { validateEmail } from '../../utils/email'
 import { roleHome } from '../../utils/roleHome'
 
 const DEMO_ACCOUNTS = [
-  { label: 'Admin demo', email: 'admin@brightloop.dev', password: 'Admin@12345' },
-  { label: 'Staff demo', email: 'staff@brightloop.dev', password: 'Staff@12345' },
-  { label: 'Customer demo', email: 'customer@brightloop.dev', password: 'Customer@12345' },
+  { label: 'Admin demo', email: 'admin@brightloop.com', password: 'Admin@12345' },
+  { label: 'Staff demo', email: 'staff@brightloop.com', password: 'Staff@12345' },
+  { label: 'Customer demo', email: 'customer@brightloop.com', password: 'Customer@12345' },
 ]
 
 export default function Login() {

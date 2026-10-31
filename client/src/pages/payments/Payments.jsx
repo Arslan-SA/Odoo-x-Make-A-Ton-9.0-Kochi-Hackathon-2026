@@ -22,7 +22,7 @@ import { formatCurrency, formatDate, formatDateTime } from '../../utils/format'
 
 const PAYMENT_METHODS = [
   { value: 'BANK_TRANSFER', label: 'Bank Transfer (NEFT/RTGS/IMPS)' },
-  { value: 'CREDIT_CARD', label: 'Credit / Debit Card' },
+  { value: 'CARD', label: 'Credit / Debit Card' },
   { value: 'UPI', label: 'UPI / NetBanking' },
   { value: 'CASH', label: 'Cash' },
   { value: 'CHEQUE', label: 'Cheque' },

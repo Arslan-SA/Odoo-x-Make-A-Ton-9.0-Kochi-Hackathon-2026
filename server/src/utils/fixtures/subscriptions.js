@@ -5,7 +5,7 @@
 const demoSubscriptions = [
   {
     subNumber: 'SUB-DEMO-001',
-    customerEmail: 'customer@brightloop.dev',
+    customerEmail: 'customer@brightloop.com',
     planName: 'Monthly SMB Starter',
     status: 'ACTIVE',
     isPaused: false,
@@ -37,7 +37,7 @@ const demoSubscriptions = [
   },
   {
     subNumber: 'SUB-DEMO-002',
-    customerEmail: 'customer@brightloop.dev',
+    customerEmail: 'customer@brightloop.com',
     planName: 'Monthly SMB Starter',
     status: 'ACTIVE',
     isPaused: true, // Demonstrates pause/resume capability in UI
@@ -60,7 +60,7 @@ const demoSubscriptions = [
   },
   {
     subNumber: 'SUB-DEMO-003',
-    customerEmail: 'customer@brightloop.dev',
+    customerEmail: 'customer@brightloop.com',
     planName: 'Yearly Enterprise Contract',
     status: 'CLOSED',
     isPaused: false,

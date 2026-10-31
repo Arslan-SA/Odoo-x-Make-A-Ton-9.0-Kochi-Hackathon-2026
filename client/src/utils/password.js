@@ -1,6 +1,6 @@
-export const PASSWORD_MIN_LENGTH = 8;
+export const PASSWORD_MIN_LENGTH = 9;
 export const PASSWORD_HINT =
-  'At least 8 characters with an uppercase letter, a lowercase letter and a special character.'
+  'At least 9 characters with an uppercase letter, a lowercase letter and a special character.'
 
 export function validatePassword(password) {
   if (!password) return 'Password is required'
