@@ -1,6 +1,7 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { authorize } = require('../src/middlewares/auth.middleware');
+const staffRouter = require('../src/modules/users/user.routes');
 
 const runAuthorize = (allowedRoles, userRole) => {
     const response = {
@@ -47,4 +48,13 @@ test('customers cannot access internal operations routes', () => {
     assert.equal(nextCalled, false);
     assert.equal(response.statusCode, 403);
     assert.match(response.body.message, /permission/i);
+});
+
+test('staff management routes mount protect and admin authorize middleware', () => {
+    const middlewareLayers = staffRouter.stack.filter((layer) => !layer.route);
+    assert.equal(
+        middlewareLayers.length,
+        2,
+        'the staff router must mount protect + authorize(admin) before its routes'
+    );
 });
