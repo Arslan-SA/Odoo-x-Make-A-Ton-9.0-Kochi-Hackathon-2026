@@ -116,7 +116,7 @@ export default function InternalDashboard() {
   }
 
   return (
-    <div className="flex min-h-screen bg-slate-50 font-sans text-[#0B1A35] antialiased">
+    <div className="flex min-h-screen bg-slate-50 dark:bg-[#070709] font-sans text-[#0B1A35] dark:text-zinc-100 antialiased transition-colors">
       <Sidebar user={dashboardUser} />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar title="Dashboard" user={dashboardUser} />
@@ -138,23 +138,23 @@ export default function InternalDashboard() {
             viewAllLabel="View all"
             rows={recentSubscriptions}
             renderRow={(sub, idx) => (
-              <tr key={sub._id || idx} className="hover:bg-slate-50/60 transition-colors">
-                <td className="px-5 py-3 font-mono text-xs font-semibold text-slate-800">
+              <tr key={sub._id || idx} className="hover:bg-slate-50/60 dark:hover:bg-zinc-800/40 transition-colors">
+                <td className="px-5 py-3 font-mono text-xs font-semibold text-slate-800 dark:text-zinc-200">
                   {sub.subNumber || sub._id?.slice(-8)}
                 </td>
-                <td className="px-5 py-3 text-sm text-slate-700">
+                <td className="px-5 py-3 text-sm text-slate-700 dark:text-zinc-300">
                   {sub.customerId?.name || sub.customerId?.email || 'Customer'}
                 </td>
-                <td className="px-5 py-3 text-sm text-slate-600">
+                <td className="px-5 py-3 text-sm text-slate-600 dark:text-zinc-400">
                   {sub.planId?.name || 'Custom Plan'}
                 </td>
-                <td className="px-5 py-3 text-sm font-medium text-[#0B1A35]">
+                <td className="px-5 py-3 text-sm font-medium text-[#0B1A35] dark:text-white">
                   ₹{Number(sub.grandTotal || 0).toLocaleString()}
                 </td>
                 <td className="px-5 py-3 text-sm">
                   <StatusBadge tone={getSubTone(sub.status)}>{sub.status}</StatusBadge>
                 </td>
-                <td className="px-5 py-3 text-sm text-slate-500">
+                <td className="px-5 py-3 text-sm text-slate-500 dark:text-zinc-400">
                   {sub.nextBillingDate ? new Date(sub.nextBillingDate).toLocaleDateString() : '—'}
                 </td>
               </tr>
@@ -170,17 +170,17 @@ export default function InternalDashboard() {
               viewAllLabel="View all"
               rows={recentInvoices}
               renderRow={(inv, idx) => (
-                <tr key={inv._id || idx} className="hover:bg-slate-50/60 transition-colors">
-                  <td className="px-5 py-3 font-mono text-xs font-semibold text-slate-800">
+                <tr key={inv._id || idx} className="hover:bg-slate-50/60 dark:hover:bg-zinc-800/40 transition-colors">
+                  <td className="px-5 py-3 font-mono text-xs font-semibold text-slate-800 dark:text-zinc-200">
                     {inv.invNumber || inv._id?.slice(-8)}
                   </td>
-                  <td className="px-5 py-3 text-sm text-slate-700">
+                  <td className="px-5 py-3 text-sm text-slate-700 dark:text-zinc-300">
                     {inv.customerId?.name || inv.customerId?.email || 'Customer'}
                   </td>
-                  <td className="px-5 py-3 text-sm font-medium text-[#0B1A35]">
+                  <td className="px-5 py-3 text-sm font-medium text-[#0B1A35] dark:text-white">
                     ₹{Number(inv.grandTotal || 0).toLocaleString()}
                   </td>
-                  <td className="px-5 py-3 text-sm text-slate-500">
+                  <td className="px-5 py-3 text-sm text-slate-500 dark:text-zinc-400">
                     {inv.dueDate ? new Date(inv.dueDate).toLocaleDateString() : '—'}
                   </td>
                   <td className="px-5 py-3 text-sm">
@@ -198,17 +198,17 @@ export default function InternalDashboard() {
               viewAllLabel="View all"
               rows={recentPayments}
               renderRow={(pay, idx) => (
-                <tr key={pay._id || idx} className="hover:bg-slate-50/60 transition-colors">
-                  <td className="px-5 py-3 font-mono text-xs font-semibold text-slate-800">
+                <tr key={pay._id || idx} className="hover:bg-slate-50/60 dark:hover:bg-zinc-800/40 transition-colors">
+                  <td className="px-5 py-3 font-mono text-xs font-semibold text-slate-800 dark:text-zinc-200">
                     {pay._id?.slice(-8).toUpperCase()}
                   </td>
-                  <td className="px-5 py-3 text-sm text-slate-700">
+                  <td className="px-5 py-3 text-sm text-slate-700 dark:text-zinc-300">
                     {pay.customerId?.name || pay.customerId?.email || 'Customer'}
                   </td>
-                  <td className="px-5 py-3 text-sm font-medium text-emerald-600">
+                  <td className="px-5 py-3 text-sm font-medium text-emerald-600 dark:text-emerald-400">
                     +₹{Number(pay.amount || 0).toLocaleString()}
                   </td>
-                  <td className="px-5 py-3 text-sm text-slate-500">
+                  <td className="px-5 py-3 text-sm text-slate-500 dark:text-zinc-400">
                     {pay.paymentDate ? new Date(pay.paymentDate).toLocaleDateString() : '—'}
                   </td>
                   <td className="px-5 py-3 text-sm">

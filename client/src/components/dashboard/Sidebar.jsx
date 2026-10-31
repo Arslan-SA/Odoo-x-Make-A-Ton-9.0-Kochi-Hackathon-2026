@@ -23,11 +23,11 @@ function NavItem({ item, collapsed, onNavigate }) {
       <span
         aria-disabled="true"
         title="Not available yet"
-        className={cn(NAV_ITEM_BASE, 'cursor-not-allowed text-slate-400', collapsed && 'justify-center')}
+        className={cn(NAV_ITEM_BASE, 'cursor-not-allowed text-slate-400 dark:text-zinc-600', collapsed && 'justify-center')}
       >
         {content}
       </span>
-    )
+    );
   }
 
   return (
@@ -41,8 +41,8 @@ function NavItem({ item, collapsed, onNavigate }) {
           NAV_ITEM_BASE,
           collapsed && 'justify-center',
           isActive
-            ? 'bg-indigo-50 text-indigo-700'
-            : 'text-slate-600 hover:bg-slate-100 hover:text-[#0B1A35]'
+            ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-semibold'
+            : 'text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800/70 hover:text-[#0B1A35] dark:hover:text-white'
         )
       }
     >
@@ -51,10 +51,12 @@ function NavItem({ item, collapsed, onNavigate }) {
   )
 }
 
-function SidebarNav({ collapsed, onNavigate }) {
+function SidebarNav({ collapsed, onNavigate, role }) {
+  const items = DASHBOARD_NAV.filter((item) => !item.roles || item.roles.includes(role))
+
   return (
     <nav aria-label="Main" className="space-y-1 px-3">
-      {DASHBOARD_NAV.map((item) => (
+      {items.map((item) => (
         <NavItem key={item.label} item={item} collapsed={collapsed} onNavigate={onNavigate} />
       ))}
     </nav>
@@ -65,12 +67,12 @@ function ProfileSummary({ user, collapsed }) {
   if (!user) return null
 
   return (
-    <div className={cn('flex items-center gap-3 border-t border-slate-200 p-3', collapsed && 'justify-center')}>
+    <div className={cn('flex items-center gap-3 border-t border-slate-200 dark:border-zinc-800/80 p-3', collapsed && 'justify-center')}>
       <UserAvatar initials={user.initials} />
       {!collapsed && (
         <div className="min-w-0">
-          <p className="truncate text-sm font-medium text-[#0B1A35]">{user.name}</p>
-          <p className="truncate text-xs text-slate-500">{user.roleLabel}</p>
+          <p className="truncate text-sm font-medium text-[#0B1A35] dark:text-white">{user.name}</p>
+          <p className="truncate text-xs text-slate-500 dark:text-zinc-400">{user.roleLabel}</p>
         </div>
       )}
     </div>
@@ -83,7 +85,7 @@ export function Sidebar({ user }) {
   return (
     <aside
       className={cn(
-        'sticky top-0 hidden h-screen shrink-0 flex-col border-r border-slate-200 bg-white transition-[width] duration-200 md:flex',
+        'sticky top-0 hidden h-screen shrink-0 flex-col border-r border-slate-200 dark:border-zinc-800/80 bg-white dark:bg-[#0f0f13] transition-[width,background-color] duration-200 md:flex',
         collapsed ? 'w-[72px]' : 'w-64'
       )}
     >
@@ -94,13 +96,13 @@ export function Sidebar({ user }) {
           onClick={() => setCollapsed((value) => !value)}
           aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
           aria-expanded={!collapsed}
-          className="flex size-8 items-center justify-center rounded-lg text-slate-500 transition-colors hover:bg-slate-100 hover:text-[#0B1A35] focus-visible:outline-2 focus-visible:outline-indigo-600"
+          className="flex size-8 items-center justify-center rounded-lg text-slate-500 dark:text-zinc-400 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-[#0B1A35] dark:hover:text-white focus-visible:outline-2 focus-visible:outline-indigo-600"
         >
           {collapsed ? <PanelLeftOpen className="size-5" aria-hidden="true" /> : <PanelLeftClose className="size-5" aria-hidden="true" />}
         </button>
       </div>
       <div className="flex-1 overflow-y-auto py-4">
-        <SidebarNav collapsed={collapsed} />
+        <SidebarNav collapsed={collapsed} role={user?.role} />
       </div>
       <ProfileSummary user={user} collapsed={collapsed} />
     </aside>
@@ -116,7 +118,7 @@ export function MobileNav({ user }) {
         type="button"
         onClick={() => setOpen(true)}
         aria-label="Open navigation"
-        className="flex size-9 items-center justify-center rounded-lg text-slate-600 transition-colors hover:bg-slate-100 md:hidden focus-visible:outline-2 focus-visible:outline-indigo-600"
+        className="flex size-9 items-center justify-center rounded-lg text-slate-600 dark:text-zinc-300 transition-colors hover:bg-slate-100 dark:hover:bg-zinc-800 md:hidden focus-visible:outline-2 focus-visible:outline-indigo-600"
       >
         <Menu className="size-5" aria-hidden="true" />
       </button>
@@ -124,22 +126,22 @@ export function MobileNav({ user }) {
       {open && (
         <div className="fixed inset-0 z-50 flex md:hidden">
           <div
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-slate-900/60 dark:bg-black/80 backdrop-blur-xs transition-opacity"
             onClick={() => setOpen(false)}
           />
-          <div className="relative flex w-72 max-w-full flex-col bg-white shadow-xl">
-            <div className="flex h-16 items-center justify-between px-4 border-b border-slate-100">
+          <div className="relative flex w-72 max-w-full flex-col bg-white dark:bg-[#0f0f13] shadow-xl border-r dark:border-zinc-800">
+            <div className="flex h-16 items-center justify-between px-4 border-b border-slate-100 dark:border-zinc-800/80">
               <Brand />
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="flex size-8 items-center justify-center rounded-lg text-slate-500 hover:bg-slate-100"
+                className="flex size-8 items-center justify-center rounded-lg text-slate-500 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800"
               >
                 <X className="size-5" aria-hidden="true" />
               </button>
             </div>
             <div className="flex-1 overflow-y-auto py-4">
-              <SidebarNav collapsed={false} onNavigate={() => setOpen(false)} />
+              <SidebarNav collapsed={false} onNavigate={() => setOpen(false)} role={user?.role} />
             </div>
             <ProfileSummary user={user} collapsed={false} />
           </div>

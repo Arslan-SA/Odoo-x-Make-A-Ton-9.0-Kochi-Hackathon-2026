@@ -15,7 +15,7 @@ export const DASHBOARD_NAV = [
   { label: 'Invoices', href: '/invoices', icon: FileText, available: false },
   { label: 'Payments', href: '/payments', icon: CreditCard, available: false },
   { label: 'Finance Reports', href: '/finance-reports', icon: BarChart3, available: false },
-  { label: 'Settings', href: '/settings', icon: Settings, available: true },
+  { label: 'Settings', href: '/settings', icon: Settings, available: true, roles: ['admin'] },
 ]
 
 export function isRouteAvailable(href) {

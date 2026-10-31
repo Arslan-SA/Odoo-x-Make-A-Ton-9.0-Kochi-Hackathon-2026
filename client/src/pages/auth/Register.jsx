@@ -62,29 +62,46 @@ export default function Register() {
 
   return (
     <AuthLayout>
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-[#0B1A35]">Create your account</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Start with a customer workspace — no credit card required.
+      {/* Title & Subtitle */}
+      <div>
+        <h2 className="text-xl font-semibold tracking-tight text-white">Create an account</h2>
+        <p className="mt-1 text-sm text-zinc-400">
+          Get started with Brightloop today
         </p>
+      </div>
+
+      {/* Segmented Control */}
+      <div className="mt-5 mb-5 flex rounded-xl bg-[#1c1c22] p-1 border border-zinc-800/80">
+        <button
+          type="button"
+          className="flex-1 rounded-lg bg-[#2b2b33] py-1.5 text-center text-xs font-medium text-white shadow-xs"
+        >
+          Create account
+        </button>
+        <Link
+          to="/login"
+          className="flex-1 rounded-lg py-1.5 text-center text-xs font-medium text-zinc-400 transition hover:text-white"
+        >
+          Sign in
+        </Link>
       </div>
 
       {error && (
         <div
           role="alert"
-          className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          className="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 px-3.5 py-2.5 text-xs text-red-300"
         >
           {error}
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+      <form onSubmit={handleSubmit} className="space-y-3.5" noValidate>
         <FormField
           id="name"
           label="Full name"
           value={form.name}
           onChange={updateField('name')}
-          placeholder="Arslan SA"
+          placeholder="Ada Lovelace"
           autoComplete="name"
           required
         />
@@ -102,10 +119,10 @@ export default function Register() {
 
         <FormField
           id="company"
-          label="Company"
+          label="Company (optional)"
           value={form.company}
           onChange={updateField('company')}
-          placeholder="Acme Retail (optional)"
+          placeholder="Acme Retail"
           autoComplete="organization"
         />
 
@@ -117,13 +134,13 @@ export default function Register() {
           onChange={updateField('password')}
           placeholder="At least 8 characters"
           autoComplete="new-password"
-          hint={PASSWORD_HINT}
           required
+          hint={PASSWORD_HINT}
           trailing={
             <button
               type="button"
               onClick={() => setShowPassword((visible) => !visible)}
-              className="rounded-md p-2 text-slate-400 transition-colors hover:text-slate-600"
+              className="rounded-md p-1.5 text-zinc-400 transition hover:text-zinc-200"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
@@ -149,23 +166,16 @@ export default function Register() {
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-zinc-950 shadow-md transition-all hover:bg-zinc-100 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
           {submitting ? 'Creating account…' : 'Create account'}
         </button>
 
-        <p className="text-center text-xs leading-5 text-slate-400">
-          The first account created on a fresh database becomes the workspace admin.
+        <p className="text-center text-[11px] leading-relaxed text-zinc-500 pt-1">
+          The first account created automatically becomes the workspace admin.
         </p>
       </form>
-
-      <p className="mt-6 text-center text-sm text-slate-500">
-        Already have an account?{' '}
-        <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
-          Sign in
-        </Link>
-      </p>
     </AuthLayout>
   )
 }

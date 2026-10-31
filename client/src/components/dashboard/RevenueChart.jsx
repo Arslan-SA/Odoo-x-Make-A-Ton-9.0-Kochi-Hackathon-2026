@@ -16,7 +16,7 @@ export function RevenueChart({ className = '', chartData = null }) {
       title="Revenue"
       className={className}
       action={
-        <div role="group" aria-label="Revenue period" className="inline-flex rounded-lg bg-slate-100 p-0.5">
+        <div role="group" aria-label="Revenue period" className="inline-flex rounded-lg bg-slate-100 dark:bg-zinc-800/80 p-0.5">
           {PERIODS.map((item) => (
             <button
               key={item.id}
@@ -26,8 +26,8 @@ export function RevenueChart({ className = '', chartData = null }) {
               className={cn(
                 'rounded-md px-3 py-1 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-indigo-600',
                 period === item.id
-                  ? 'bg-white text-[#0B1A35] shadow-sm'
-                  : 'text-slate-500 hover:text-[#0B1A35]'
+                  ? 'bg-white dark:bg-zinc-700 text-[#0B1A35] dark:text-white shadow-sm'
+                  : 'text-slate-500 dark:text-zinc-400 hover:text-[#0B1A35] dark:hover:text-white'
               )}
             >
               {item.label}
@@ -42,17 +42,17 @@ export function RevenueChart({ className = '', chartData = null }) {
             {chartData.map((bar, i) => (
               <div key={i} className="flex flex-1 flex-col items-center gap-1.5">
                 <div
-                  className="w-full rounded-t-md bg-indigo-500/80 transition-all hover:bg-indigo-600"
+                  className="w-full rounded-t-md bg-indigo-500/80 dark:bg-indigo-500/90 transition-all hover:bg-indigo-600 dark:hover:bg-indigo-400"
                   style={{ height: `${Math.max(12, bar.heightPercent)}%` }}
                   title={`${bar.label}: ₹${bar.value.toLocaleString()}`}
                 />
-                <span className="text-[10px] text-slate-400">{bar.label}</span>
+                <span className="text-[10px] text-slate-400 dark:text-zinc-500">{bar.label}</span>
               </div>
             ))}
           </div>
         </div>
       ) : (
-        <div className="flex h-72 items-center justify-center rounded-xl border border-dashed border-slate-200">
+        <div className="flex h-72 items-center justify-center rounded-xl border border-dashed border-slate-200 dark:border-zinc-800/80">
           <DataUnavailable message={`Revenue over time (${period}) appears once billing data is connected.`} />
         </div>
       )}

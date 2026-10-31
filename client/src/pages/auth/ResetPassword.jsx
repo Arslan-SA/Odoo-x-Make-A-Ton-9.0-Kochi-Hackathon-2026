@@ -48,17 +48,19 @@ export default function ResetPassword() {
   if (!token) {
     return (
       <AuthLayout>
-        <div className="rounded-2xl border border-red-200 bg-red-50 p-6">
-          <h2 className="text-lg font-semibold text-red-900">This reset link is incomplete</h2>
-          <p className="mt-2 text-sm leading-6 text-red-800">
-            The token is missing from the URL. Request a fresh reset link to continue.
+        <div className="rounded-xl border border-red-500/30 bg-red-950/30 p-5 text-red-200">
+          <h2 className="text-sm font-semibold text-white">Reset link incomplete</h2>
+          <p className="mt-1 text-xs leading-relaxed text-zinc-400">
+            The security token is missing from the URL. Please request a fresh reset link.
           </p>
-          <Link
-            to="/forgot-password"
-            className="mt-4 inline-flex text-sm font-semibold text-red-900 underline-offset-4 hover:underline"
-          >
-            Request a new link
-          </Link>
+          <div className="mt-4">
+            <Link
+              to="/forgot-password"
+              className="text-xs font-semibold text-white hover:underline"
+            >
+              Request a new link
+            </Link>
+          </div>
         </div>
       </AuthLayout>
     )
@@ -67,18 +69,20 @@ export default function ResetPassword() {
   if (done) {
     return (
       <AuthLayout>
-        <div className="rounded-2xl border border-emerald-200 bg-emerald-50 p-6">
-          <CheckCircle2 className="size-8 text-emerald-600" aria-hidden="true" />
-          <h2 className="mt-3 text-lg font-semibold text-emerald-900">Password updated</h2>
-          <p className="mt-2 text-sm leading-6 text-emerald-800">
-            Your new password is active. Sign in to continue to your workspace.
+        <div className="rounded-xl border border-emerald-500/30 bg-emerald-950/30 p-5 text-emerald-200">
+          <CheckCircle2 className="size-6 text-emerald-400" aria-hidden="true" />
+          <h2 className="mt-2 text-sm font-semibold text-white">Password updated</h2>
+          <p className="mt-1 text-xs leading-relaxed text-zinc-400">
+            Your new password has been set. Sign in to access your workspace.
           </p>
-          <Link
-            to="/login"
-            className="mt-5 inline-flex rounded-xl bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-emerald-600"
-          >
-            Sign in
-          </Link>
+          <div className="mt-4">
+            <Link
+              to="/login"
+              className="inline-flex rounded-lg bg-white px-3.5 py-1.5 text-xs font-semibold text-zinc-950 hover:bg-zinc-100"
+            >
+              Sign in now
+            </Link>
+          </div>
         </div>
       </AuthLayout>
     )
@@ -86,17 +90,17 @@ export default function ResetPassword() {
 
   return (
     <AuthLayout>
-      <div className="mb-8">
-        <h2 className="text-2xl font-semibold tracking-tight text-[#0B1A35]">Set a new password</h2>
-        <p className="mt-2 text-sm text-slate-500">
-          Choose a strong password you have not used before.
+      <div className="mb-6">
+        <h2 className="text-xl font-semibold tracking-tight text-white">Set new password</h2>
+        <p className="mt-1 text-sm text-zinc-400">
+          Choose a strong password you haven't used before
         </p>
       </div>
 
       {error && (
         <div
           role="alert"
-          className="mb-5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+          className="mb-4 rounded-xl border border-red-500/30 bg-red-950/40 px-3.5 py-2.5 text-xs text-red-300"
         >
           {error}
         </div>
@@ -117,7 +121,7 @@ export default function ResetPassword() {
             <button
               type="button"
               onClick={() => setShowPassword((visible) => !visible)}
-              className="rounded-md p-2 text-slate-400 transition-colors hover:text-slate-600"
+              className="rounded-md p-1.5 text-zinc-400 transition hover:text-zinc-200"
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
               {showPassword ? (
@@ -143,15 +147,15 @@ export default function ResetPassword() {
         <button
           type="submit"
           disabled={submitting}
-          className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-indigo-600 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-600/20 transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+          className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-zinc-950 shadow-md transition-all hover:bg-zinc-100 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
         >
           {submitting && <Loader2 className="size-4 animate-spin" aria-hidden="true" />}
           {submitting ? 'Updating password…' : 'Update password'}
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500">
-        <Link to="/login" className="font-semibold text-indigo-600 hover:text-indigo-500">
+      <p className="mt-5 text-center text-xs text-zinc-400">
+        <Link to="/login" className="font-medium text-white hover:underline">
           Back to sign in
         </Link>
       </p>
