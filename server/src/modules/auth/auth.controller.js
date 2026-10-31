@@ -46,7 +46,7 @@ exports.register = async (req, res) => {
         if (existing) {
             return res.status(409).json({
                 success: false,
-                message: 'An account with this email already exists',
+                message: 'username already exists',
             });
         }
 
@@ -68,7 +68,7 @@ exports.register = async (req, res) => {
         if (err.code === 11000) {
             return res.status(409).json({
                 success: false,
-                message: 'An account with this email already exists',
+                message: ,'Email already in use',
             });
         }
         if (err.name === 'ValidationError') {
