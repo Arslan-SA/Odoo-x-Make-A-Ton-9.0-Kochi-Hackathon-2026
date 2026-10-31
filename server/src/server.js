@@ -3,6 +3,8 @@ const cors = require('cors');
 require('dotenv').config();
 const connectDB = require('./config/db');
 const User = require('./models/User');
+const Product = require('./models/Product');
+const { seedAll } = require('./utils/seeder');
 
 const authRoutes = require('./modules/auth/auth.routes');
 const userRoutes = require('./modules/users/user.routes');
@@ -41,17 +43,12 @@ async function start() {
 
   try {
     const userCount = await User.countDocuments();
-    if (userCount === 0) {
-      console.log('Fresh database detected. Auto-seeding demo users...');
-      const DEMO_USERS = [
-        { name: 'Brightloop Admin', email: 'admin@brightloop.dev', password: 'Admin@12345', role: 'admin', company: 'Brightloop' },
-        { name: 'Demo Customer', email: 'customer@brightloop.dev', password: 'Customer@12345', role: 'customer', company: 'Acme Retail' },
-        { name: 'Demo Staff', email: 'staff@brightloop.dev', password: 'Staff@12345', role: 'staff', company: 'Brightloop' },
-      ];
-      for (const demo of DEMO_USERS) {
-        await User.create(demo);
-      }
-      console.log('Demo users seeded successfully.');
+    const productCount = await Product.countDocuments();
+
+    if (userCount === 0 || productCount === 0) {
+      console.log('Fresh database detected. Auto-seeding initial catalog and demo records...');
+      await seedAll({ clear: false, quick: true });
+      console.log('Database auto-seed completed successfully.');
     }
   } catch (seedErr) {
     console.warn('Auto-seed check note:', seedErr.message);

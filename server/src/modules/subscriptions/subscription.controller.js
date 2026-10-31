@@ -82,7 +82,10 @@ exports.getSubscriptions = async (req, res) => {
         const [subscriptions, total] = await Promise.all([
             Subscription.find(filter)
                 .populate('customerId', 'name email')
-                .populate('planId', 'name billingCycle price')
+                .populate(
+                    'planId',
+                    'name billingCycle price minQty autoClose canCloseEarly canPause canRenew isActive'
+                )
                 .sort({ createdAt: -1 })
                 .skip(skip)
                 .limit(Number(limit))

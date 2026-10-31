@@ -7,6 +7,9 @@ import ForgotPassword from './pages/auth/ForgotPassword'
 import ResetPassword from './pages/auth/ResetPassword'
 import PortalDashboard from './pages/portal/Dashboard'
 import InternalDashboard from './pages/internal/Dashboard'
+import Subscriptions from './pages/subscriptions/Subscriptions'
+import Catalog from './pages/catalog/Catalog'
+import Invoices from './pages/invoices/Invoices'
 import AdminSettings from './pages/settings/Settings'
 import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/auth/ProtectedRoute'
@@ -49,6 +52,30 @@ export default function App() {
               element={
                 <ProtectedRoute roles={['admin', 'staff']}>
                   <InternalDashboard />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/subscriptions"
+              element={
+                <ProtectedRoute roles={['admin', 'staff']}>
+                  <Subscriptions />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/catalog"
+              element={
+                <ProtectedRoute roles={['admin', 'staff']}>
+                  <Catalog />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/invoices"
+              element={
+                <ProtectedRoute roles={['admin', 'staff']}>
+                  <Invoices />
                 </ProtectedRoute>
               }
             />
