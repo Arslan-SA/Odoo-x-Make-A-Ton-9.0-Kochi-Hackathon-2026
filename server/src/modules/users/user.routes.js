@@ -4,6 +4,9 @@ const { protect, authorize } = require('../../middlewares/auth.middleware');
 
 const router = express.Router();
 
+// Sales reps need a customer picker when creating subscriptions.
+router.get('/customers', protect, authorize('admin', 'staff'), userController.listCustomers);
+
 // Staff management is strictly an admin capability.
 router.use(protect, authorize('admin'));
 

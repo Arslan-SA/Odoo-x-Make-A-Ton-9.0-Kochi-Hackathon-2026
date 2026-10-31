@@ -47,7 +47,8 @@ exports.createPlan = async (req, res) => {
 
 exports.getPlans = async (req, res) => {
     try {
-        const plans = await Plan.find({ isActive: true }).sort({ price: 1 }).lean();
+        const filter = req.query.includeInactive === 'true' ? {} : { isActive: true };
+        const plans = await Plan.find(filter).sort({ price: 1 }).lean();
         res.json({ success: true, data: plans });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });

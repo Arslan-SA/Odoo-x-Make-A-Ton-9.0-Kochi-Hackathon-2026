@@ -46,6 +46,7 @@ export const authApi = {
 // Admin: staff accounts
 export const userApi = {
     getStaff: () => api.get('/users/staff'),
+    getCustomers: (params) => api.get('/users/customers', { params }),
     createStaff: (data) => api.post('/users/staff', data),
     updateStaffStatus: (id, isActive) =>
         api.patch(`/users/staff/${id}/status`, { isActive }),
@@ -60,10 +61,12 @@ export const portalApi = {
 
 // Catalog & Subscriptions (Role 1)
 export const catalogApi = {
-    getProducts: () => api.get('/catalog/products'),
+    getProducts: (params) => api.get('/catalog/products', { params }),
     createProduct: (data) => api.post('/catalog/products', data),
-    getPlans: () => api.get('/catalog/plans'),
+    updateProduct: (id, data) => api.patch(`/catalog/products/${id}`, data),
+    getPlans: (params) => api.get('/catalog/plans', { params }),
     createPlan: (data) => api.post('/catalog/plans', data),
+    updatePlan: (id, data) => api.patch(`/catalog/plans/${id}`, data),
     getTemplates: () => api.get('/catalog/templates'),
     createTemplate: (data) => api.post('/catalog/templates', data),
 };

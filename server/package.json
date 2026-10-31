@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
+    "seed": "node src/utils/seeder.js",
+    "seed:quick": "node src/utils/seeder.js --quick",
     "seed:catalog": "node src/utils/seedCatalogAndSubs.js",
     "seed:auth": "node src/utils/seedAuth.js",
     "test": "node --test"

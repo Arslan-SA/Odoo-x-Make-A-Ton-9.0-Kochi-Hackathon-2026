@@ -4,6 +4,28 @@ const publicUser = require('../../utils/publicUser');
 
 const normalizeEmail = (email = '') => String(email).trim().toLowerCase();
 
+// GET /api/users/customers
+exports.listCustomers = async (req, res) => {
+    try {
+        const { search } = req.query;
+        const filter = { role: 'customer', isActive: true };
+
+        if (search) {
+            const regex = { $regex: String(search), $options: 'i' };
+            filter.$or = [{ name: regex }, { email: regex }, { company: regex }];
+        }
+
+        const customers = await User.find(filter)
+            .sort({ name: 1 })
+            .limit(100)
+            .lean();
+
+        res.json({ success: true, data: customers.map(publicUser) });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
 // GET /api/users/staff
 exports.listStaff = async (_req, res) => {
     try {

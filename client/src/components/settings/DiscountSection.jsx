@@ -63,20 +63,20 @@ export default function DiscountSection({ discounts, onChanged }) {
   }
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+    <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8 dark:border-zinc-800 dark:bg-[#0E0E12]">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600">
+          <span className="flex size-10 items-center justify-center rounded-xl bg-rose-50 text-rose-600 dark:bg-rose-950/60 dark:text-rose-400">
             <BadgePercent className="size-5" aria-hidden="true" />
           </span>
           <div>
-            <h2 className="text-base font-semibold">Discount rules</h2>
-            <p className="mt-1 text-sm text-slate-500">
+            <h2 className="text-base font-semibold text-[#0B1A35] dark:text-white">Discount rules</h2>
+            <p className="mt-1 text-sm text-slate-500 dark:text-zinc-400">
               Promo codes and automatic discounts applied to subscriptions and invoices.
             </p>
           </div>
         </div>
-        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+        <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 dark:bg-zinc-800 dark:text-zinc-300">
           {discounts.length} {discounts.length === 1 ? 'rule' : 'rules'}
         </span>
       </div>
@@ -170,24 +170,24 @@ export default function DiscountSection({ discounts, onChanged }) {
         </div>
       </form>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200">
+      <div className="mt-6 overflow-hidden rounded-xl border border-slate-200 dark:border-zinc-800">
         {discounts.length === 0 ? (
-          <p className="px-4 py-6 text-sm text-slate-500">No discount rules yet.</p>
+          <p className="px-4 py-6 text-sm text-slate-500 dark:text-zinc-400">No discount rules yet.</p>
         ) : (
-          <ul className="divide-y divide-slate-100">
+          <ul className="divide-y divide-slate-100 dark:divide-zinc-800">
             {discounts.map((discount) => (
               <li
                 key={discount._id}
-                className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+                className="flex flex-col gap-2 px-4 py-4 sm:flex-row sm:items-center sm:justify-between dark:hover:bg-zinc-850/50"
               >
                 <div>
-                  <p className="text-sm font-medium">
+                  <p className="text-sm font-medium text-[#0B1A35] dark:text-white">
                     {discount.name}
-                    <span className="ml-2 rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-600">
+                    <span className="ml-2 rounded bg-slate-100 px-2 py-0.5 font-mono text-[11px] font-semibold text-slate-600 dark:bg-zinc-800 dark:text-zinc-300">
                       {discount.code}
                     </span>
                   </p>
-                  <p className="mt-0.5 text-xs text-slate-500">
+                  <p className="mt-0.5 text-xs text-slate-500 dark:text-zinc-400">
                     {discount.type === 'PERCENT'
                       ? `${discount.value}% off`
                       : `₹${discount.value} off`}
@@ -200,8 +200,8 @@ export default function DiscountSection({ discounts, onChanged }) {
                 <span
                   className={`w-fit rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
                     discount.isActive
-                      ? 'bg-emerald-50 text-emerald-700'
-                      : 'bg-slate-100 text-slate-500'
+                      ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300'
+                      : 'bg-slate-100 text-slate-500 dark:bg-zinc-800 dark:text-zinc-400'
                   }`}
                 >
                   {discount.isActive ? 'active' : 'inactive'}
