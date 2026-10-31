@@ -51,6 +51,14 @@ export default function App() {
             }
           />
           <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute roles={['admin', 'staff']}>
+                <InternalDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/settings"
             element={
               <ProtectedRoute roles={['admin']}>
