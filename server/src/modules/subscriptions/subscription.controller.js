@@ -205,3 +205,46 @@ exports.handleLifecycleAction = async (req, res) => {
         res.status(400).json({ success: false, message: err.message });
     }
 };
+
+// 6. Update Subscription Lines / Plan while in DRAFT or QUOTATION
+exports.updateSubscription = async (req, res) => {
+    try {
+        const sub = await Subscription.findById(req.params.id);
+        if (!sub) return res.status(404).json({ success: false, message: 'Subscription not found' });
+
+        if (!['DRAFT', 'QUOTATION'].includes(sub.status)) {
+            return res.status(400).json({
+                success: false,
+                message: `Cannot edit subscription lines once in ${sub.status} status.`,
+            });
+        }
+
+        const { lines, paymentTerms, expiryDate, discountId, defaultTaxRate } = req.body;
+
+        if (lines && lines.length > 0) {
+            const plan = await Plan.findById(sub.planId).lean();
+            const totalQty = lines.reduce((sum, l) => sum + Number(l.quantity || 1), 0);
+            if (plan && totalQty < plan.minQty) {
+                return res.status(400).json({
+                    success: false,
+                    message: `Plan "${plan.name}" requires at least ${plan.minQty} quantity.`,
+                });
+            }
+
+            const calculated = await buildSubscriptionLines(lines, defaultTaxRate);
+            sub.lines = calculated.lines;
+            sub.subtotal = calculated.subtotal;
+            sub.taxTotal = calculated.taxTotal;
+            sub.grandTotal = calculated.grandTotal;
+        }
+
+        if (paymentTerms) sub.paymentTerms = paymentTerms;
+        if (expiryDate) sub.expiryDate = expiryDate;
+        if (discountId !== undefined) sub.discountId = discountId;
+
+        await sub.save();
+        res.json({ success: true, data: sub });
+    } catch (err) {
+        res.status(400).json({ success: false, message: err.message });
+    }
+};
