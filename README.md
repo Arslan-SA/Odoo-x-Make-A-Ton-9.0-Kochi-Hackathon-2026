@@ -71,7 +71,7 @@ Set `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS` and `SMTP_FROM` in `serve
 ## Internal API
 
 | Method | Endpoint | Access |
-| --- | --- | --- |
+| --- | --- |
 | `GET` / `POST` | `/api/users/staff` | Admin |
 | `PATCH` | `/api/users/staff/:id/status` | Admin |
 | `POST` | `/api/billing/taxes` | Admin |
