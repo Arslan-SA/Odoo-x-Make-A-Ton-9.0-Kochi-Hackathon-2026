@@ -5,6 +5,8 @@ const Product = require('../models/Product');
 const Plan = require('../models/Plan');
 const QuotationTemplate = require('../models/QuotationTemplate');
 const Subscription = require('../models/Subscription');
+const Invoice = require('../models/Invoice');
+const User = require('../models/User');
 
 const runSeed = async () => {
     try {
@@ -15,6 +17,7 @@ const runSeed = async () => {
             Plan.deleteMany({}),
             QuotationTemplate.deleteMany({}),
             Subscription.deleteMany({}),
+            Invoice.deleteMany({}),
         ]);
 
         // 1. Create Products with Variants (including Odoo +560 rule from PDF)
@@ -177,6 +180,106 @@ const runSeed = async () => {
         }
 
         await Subscription.insertMany(bulkSubs, { ordered: false });
+
+        // 5. Give the demo customer a small, realistic portal to explore.
+        const demoCustomer = await User.findOne({ email: 'customer@brightloop.dev' }).lean();
+        if (demoCustomer) {
+            const demoLine = {
+                productId: products[0]._id,
+                productName: products[0].name,
+                variantAttribute: 'Brand',
+                variantValue: 'Odoo',
+                quantity: 2,
+                unitPrice: 2560,
+                taxRate: 18,
+                taxAmount: 921.6,
+                amount: 6041.6,
+            };
+
+            const demoSubs = await Subscription.insertMany([
+                {
+                    subNumber: 'SUB-DEMO-001',
+                    customerId: demoCustomer._id,
+                    planId: plans[0]._id,
+                    status: 'ACTIVE',
+                    isPaused: false,
+                    startDate: now,
+                    nextBillingDate: now,
+                    paymentTerms: 'Net 15',
+                    lines: [demoLine],
+                    subtotal: 5120,
+                    taxTotal: 921.6,
+                    grandTotal: 6041.6,
+                },
+                {
+                    subNumber: 'SUB-DEMO-002',
+                    customerId: demoCustomer._id,
+                    planId: plans[0]._id,
+                    status: 'ACTIVE',
+                    isPaused: true,
+                    startDate: now,
+                    nextBillingDate: now,
+                    paymentTerms: 'Net 15',
+                    lines: [demoLine],
+                    subtotal: 5120,
+                    taxTotal: 921.6,
+                    grandTotal: 6041.6,
+                },
+                {
+                    subNumber: 'SUB-DEMO-003',
+                    customerId: demoCustomer._id,
+                    planId: plans[1]._id,
+                    status: 'CLOSED',
+                    isPaused: false,
+                    startDate: now,
+                    expiryDate: now,
+                    nextBillingDate: null,
+                    paymentTerms: 'Immediate Payment',
+                    lines: [demoLine],
+                    subtotal: 5120,
+                    taxTotal: 921.6,
+                    grandTotal: 6041.6,
+                },
+            ]);
+
+            const activeDemoSub = demoSubs[0];
+            await Invoice.insertMany([
+                {
+                    invNumber: 'INV-DEMO-001',
+                    subscriptionId: activeDemoSub._id,
+                    customerId: demoCustomer._id,
+                    billingCycleKey: `demo-${activeDemoSub._id}-current`,
+                    status: 'CONFIRMED',
+                    issueDate: new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000),
+                    dueDate: new Date(now.getTime() + 5 * 24 * 60 * 60 * 1000),
+                    lines: [demoLine],
+                    subtotal: 5120,
+                    taxTotal: 921.6,
+                    grandTotal: 6041.6,
+                    paidAmount: 0,
+                    balanceDue: 6041.6,
+                },
+                {
+                    invNumber: 'INV-DEMO-002',
+                    subscriptionId: activeDemoSub._id,
+                    customerId: demoCustomer._id,
+                    billingCycleKey: `demo-${activeDemoSub._id}-previous`,
+                    status: 'PAID',
+                    issueDate: new Date(now.getTime() - 40 * 24 * 60 * 60 * 1000),
+                    dueDate: new Date(now.getTime() - 25 * 24 * 60 * 60 * 1000),
+                    lines: [demoLine],
+                    subtotal: 5120,
+                    taxTotal: 921.6,
+                    grandTotal: 6041.6,
+                    paidAmount: 6041.6,
+                    balanceDue: 0,
+                },
+            ]);
+            console.log('✅ Demo portal data: 3 subscriptions and 2 invoices for customer@brightloop.dev');
+        } else {
+            console.log('⚠️ Run npm run seed:auth first to create the demo customer portal data.');
+        }
+
         console.log('✅ Seed complete: 3 Products, 4 Plans, 2 Templates, and 3,000 Subscriptions created!');
         process.exit(0);
     } catch (error) {

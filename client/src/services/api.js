@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5001/api',
 });
 
 // Automatically attach JWT token if logged in
@@ -12,6 +12,51 @@ api.interceptors.request.use((config) => {
     }
     return config;
 });
+
+// Clear an expired/invalid session and let AuthContext react.
+api.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        const requestToken = error.config?.headers?.Authorization;
+        const storedToken = localStorage.getItem('token');
+
+        // Only clear the session if the failed request used the current token.
+        if (
+            error.response?.status === 401 &&
+            storedToken &&
+            requestToken === `Bearer ${storedToken}`
+        ) {
+            localStorage.removeItem('token');
+            window.dispatchEvent(new Event('auth:unauthorized'));
+        }
+        return Promise.reject(error);
+    }
+);
+
+// Authentication
+export const authApi = {
+    register: (data) => api.post('/auth/register', data),
+    login: (data) => api.post('/auth/login', data),
+    me: () => api.get('/auth/me'),
+    logout: () => api.post('/auth/logout'),
+    forgotPassword: (data) => api.post('/auth/forgot-password', data),
+    resetPassword: (data) => api.post('/auth/reset-password', data),
+};
+
+// Admin: staff accounts
+export const userApi = {
+    getStaff: () => api.get('/users/staff'),
+    createStaff: (data) => api.post('/users/staff', data),
+    updateStaffStatus: (id, isActive) =>
+        api.patch(`/users/staff/${id}/status`, { isActive }),
+};
+
+// Customer self-service
+export const portalApi = {
+    getOverview: () => api.get('/portal/overview'),
+    lifecycleAction: (id, action) =>
+        api.patch(`/portal/subscriptions/${id}/lifecycle`, { action }),
+};
 
 // Catalog & Subscriptions (Role 1)
 export const catalogApi = {
@@ -27,7 +72,7 @@ export const subscriptionApi = {
     getAll: (params) => api.get('/subscriptions', { params }),
     getById: (id) => api.get(`/subscriptions/${id}`),
     create: (data) => api.post('/subscriptions', data),
-    updateLines: (id, data) => api.put(`/subscriptions/${id}`, data),
+    updateLines: (id, data) => api.patch(`/subscriptions/${id}`, data),
     transitionStatus: (id, targetStatus) =>
         api.patch(`/subscriptions/${id}/status`, { targetStatus }),
     lifecycleAction: (id, action) =>

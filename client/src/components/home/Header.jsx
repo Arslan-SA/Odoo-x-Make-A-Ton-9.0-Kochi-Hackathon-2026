@@ -1,6 +1,9 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import Brand from './Brand'
+import { useAuth } from '../../context/auth-context'
+import { roleHome } from '../../utils/roleHome'
 import scrollToSection from '../../utils/scrollToSection'
 
 const NAV_LINKS = [
@@ -11,6 +14,7 @@ const NAV_LINKS = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { user } = useAuth()
 
   const navigateTo = (id) => {
     setMenuOpen(false)
@@ -45,18 +49,29 @@ export default function Header() {
         </ul>
 
         <div className="hidden items-center gap-3 md:flex">
-          <button
-            type="button"
-            className="rounded-lg px-4 py-2 text-sm font-medium text-[#0B1A35] transition-colors hover:bg-slate-100"
-          >
-            Login
-          </button>
-          <button
-            type="button"
-            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-indigo-600/20 transition-all hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-md"
-          >
-            Get Started
-          </button>
+          {user ? (
+            <Link
+              to={roleHome(user)}
+              className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-indigo-600/20 transition-all hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-md"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="rounded-lg px-4 py-2 text-sm font-medium text-[#0B1A35] transition-colors hover:bg-slate-100"
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm shadow-indigo-600/20 transition-all hover:-translate-y-0.5 hover:bg-indigo-500 hover:shadow-md"
+              >
+                Get Started
+              </Link>
+            </>
+          )}
         </div>
 
         <button
@@ -87,18 +102,32 @@ export default function Header() {
             ))}
           </ul>
           <div className="mt-3 flex gap-3">
-            <button
-              type="button"
-              className="flex-1 rounded-lg border border-slate-200 px-4 py-2.5 text-sm font-medium text-[#0B1A35]"
-            >
-              Login
-            </button>
-            <button
-              type="button"
-              className="flex-1 rounded-lg bg-indigo-600 px-4 py-2.5 text-sm font-medium text-white"
-            >
-              Get Started
-            </button>
+            {user ? (
+              <Link
+                to={roleHome(user)}
+                onClick={() => setMenuOpen(false)}
+                className="flex-1 rounded-lg bg-indigo-600 px-4 py-2.5 text-center text-sm font-medium text-white"
+              >
+                Dashboard
+              </Link>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex-1 rounded-lg border border-slate-200 px-4 py-2.5 text-center text-sm font-medium text-[#0B1A35]"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setMenuOpen(false)}
+                  className="flex-1 rounded-lg bg-indigo-600 px-4 py-2.5 text-center text-sm font-medium text-white"
+                >
+                  Get Started
+                </Link>
+              </>
+            )}
           </div>
         </div>
       )}
