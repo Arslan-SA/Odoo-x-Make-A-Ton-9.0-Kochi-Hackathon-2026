@@ -5,6 +5,7 @@ const connectDB = require('./config/db');
 
 const catalogRoutes = require('./modules/catalog/catalog.routes');
 const subscriptionRoutes = require('./modules/subscriptions/subscription.routes');
+const billingRoutes = require('./modules/billing/billing.routes');
 
 const app = express();
 
@@ -20,6 +21,7 @@ app.get('/api/health', (req, res) => {
 // Role 1 Routes: Catalog & Subscriptions
 app.use('/api/catalog', catalogRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
+app.use('/api/billing', billingRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
