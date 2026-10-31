@@ -15,7 +15,9 @@ export default function Brand({ className = '' }) {
           <path d="M4 4v4h4" />
         </svg>
       </span>
-      <span className="text-[17px] font-semibold tracking-tight text-[#0B1A35]">Brightloop</span>
+      <span className="text-[17px] font-semibold tracking-tight text-[#0B1A35] dark:text-white">
+        Brightloop
+      </span>
     </span>
   )
 }

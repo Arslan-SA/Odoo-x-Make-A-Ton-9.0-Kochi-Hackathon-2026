@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const catalogController = require('./catalog.controller');
+const { protect, authorize } = require('../../middlewares/auth.middleware');
+
+// Catalog management is internal: admins configure it, staff consume it.
+router.use(protect, authorize('admin', 'staff'));
 
 // Products
 router.post('/products', catalogController.createProduct);

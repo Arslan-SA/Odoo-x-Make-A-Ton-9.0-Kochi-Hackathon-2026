@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 export default function CtaBanner() {
   return (
     <section className="bg-white px-5 pb-20 sm:px-8 sm:pb-24">
@@ -12,12 +14,12 @@ export default function CtaBanner() {
         <p className="relative mx-auto mt-4 max-w-xl text-indigo-100">
           Start billing your customers on autopilot and see every dollar you collect.
         </p>
-        <button
-          type="button"
+        <Link
+          to="/signup"
           className="relative mt-8 inline-flex items-center justify-center rounded-xl bg-white px-7 py-3 text-sm font-semibold text-indigo-700 shadow-lg transition-all hover:-translate-y-0.5 hover:bg-indigo-50 hover:shadow-xl"
         >
           Get Started
-        </button>
+        </Link>
       </div>
     </section>
   )

@@ -10,15 +10,21 @@ const { calculateNextBillingDate } = require('../subscriptions/subscription.serv
 exports.createTaxRule = async (req, res) => {
     try {
         const tax = await TaxRule.create(req.body);
+
+        // Only one rule can be the workspace default.
+        if (tax.isDefault) {
+            await TaxRule.updateMany({ _id: { $ne: tax._id } }, { isDefault: false });
+        }
+
         res.status(201).json({ success: true, data: tax });
     } catch (err) {
         res.status(400).json({ success: false, message: err.message });
     }
 };
 
-exports.getTaxRules = async (req, res) => {
+exports.getTaxRules = async (_req, res) => {
     try {
-        const taxes = await TaxRule.find({ isActive: true }).lean();
+        const taxes = await TaxRule.find().sort({ createdAt: -1 }).lean();
         res.json({ success: true, data: taxes });
     } catch (err) {
         res.status(500).json({ success: false, message: err.message });
