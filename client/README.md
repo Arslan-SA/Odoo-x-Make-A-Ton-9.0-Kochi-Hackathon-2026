@@ -1,16 +1,44 @@
-# React + Vite
+# Brightloop Frontend Client
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React 19 + Vite 8 + Tailwind CSS 4 frontend application for the Brightloop Subscription Management & Recurring Billing platform.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Role-Based Views:** Dedicated dashboards and interfaces for Admin, Staff, and Customer users.
+- **Operations Workflow:** Product catalog with variant pricing, recurring plan setup, quotation templates, subscription lifecycle actions, invoice tracking, and payment recording.
+- **Finance Dashboard:** Aggregated revenue KPIs, MRR metrics, and overdue invoice tracking.
+- **Customer Portal:** Customer self-service dashboard to manage active subscriptions, pause/resume, and inspect billing history.
+- **Modern UI:** "Clean Indigo Ledger" design system with responsive layouts, glassmorphic navigation, and light/dark theme toggling.
 
-## React Compiler
+## Scripts
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Install dependencies
+npm install
 
-## Expanding the ESLint configuration
+# Run development server
+npm run dev
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+# Build production bundle
+npm run build
+
+# Preview production build
+npm run preview
+
+# Lint codebase
+npm run lint
+```
+
+## Environment Configuration
+
+Copy `.env.example` to `.env`:
+
+```bash
+cp .env.example .env
+```
+
+Set the backend API URL:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+```

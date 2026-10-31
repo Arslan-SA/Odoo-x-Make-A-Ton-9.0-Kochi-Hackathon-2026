@@ -1,67 +1,73 @@
-# Visual Design Contract
+# Brightloop Visual Design & Experience Specification
 
-`AGENTS.md` is the canonical statement of the blank-canvas rule — check
-`app/routes/_index.tsx` and `app/global.css`, preserve any real UI/brand
-already there, and only treat the canvas as blank when those files still show
-the starter's placeholder. This file does not restate that rule; it records
-**this app's** visual direction. The fields below are the source of truth for
-that direction: once filled in, read and preserve them on every build; while
-they are still empty, the first substantial UI pass fills them in.
+This document defines the visual design system, UI conventions, and interaction standards implemented across the Brightloop Subscription Management & Recurring Billing platform.
 
-## Non-negotiable: impress by default
+---
 
-When this app is still a blank canvas, every app generated from this template
-must look **spectacular on first load**, even when the build prompt gives no
-design direction. "Looks like a clean, intentional product" is the floor, not
-the goal. When no direction is supplied, you still commit to one — do not
-default to safe gray SaaS:
+## 1. Design Direction: "Clean Indigo Ledger"
 
-- Commit to one concrete visual world (see the `frontend-design` skill and its
-  `references/visual-direction.md`). Do not ship the neutral placeholder theme.
-- Choose a product-fitting accent family and set it in the `app/global.css`
-  tokens for **both** light and dark. Never leave the 0%-saturation default as
-  the shipped palette.
-- Establish a clear type hierarchy, a consistent spacing rhythm, and one
-  signature detail (a considered empty state, a distinctive header, a crafted
-  primary action) that makes the surface feel designed for its domain.
-- Get focus, hover, empty, loading, and dark-mode states right — that polish is
-  the difference between an AI demo and a product.
+Brightloop's interface is designed for high-velocity operations, finance visibility, and customer self-service. The aesthetic balances financial precision with modern SaaS elegance.
 
-Pick a direction and execute it fully; never average toward generic SaaS. Once
-a direction is established and recorded below, preserve and extend it rather
-than starting over unless otherwise directed to.
+- **Design Philosophy:** Crisp, high-contrast typography, clear status hierarchies, and glassmorphic micro-surfaces.
+- **Audience:** Finance officers, sales teams managing subscription quotes, operations staff executing billing runs, and customers inspecting their billing ledger.
+- **Tone:** Professional, reliable, structured, and modern.
 
-## Fill in before building the first surface
+---
 
-Once the fields below are filled in, they describe this app's established
-visual direction — read and preserve them on every subsequent build; do not
-re-derive a new direction. The first UI pass must fill these fields in as
-part of that build, not leave them as an empty template.
+## 2. Color Palette & Tokens
 
-- Product mode: `persuade` (public landing page for Brightloop, a subscription management system)
-- Audience and cadence: SaaS buyers and finance/ops leads evaluating billing tools; one-time first impression, then return visits from the hackathon demo
-- Visual world (name + the feeling it creates): "Clean Indigo Ledger" — bright, airy, precise; feels like a trustworthy financial tool with a modern SaaS polish
-- Palette family + neutral undertone: indigo accent (primary 243 75% 59% light, 235 85% 70% dark) on cool slate neutrals; navy `#0B1A35` for headings and body emphasis; white or very light indigo-tinted backgrounds
-- Type treatment: Inter Variable; large tight-tracked headlines (`tracking-tight`, ~1.1 leading) with one indigo-to-violet gradient phrase; small uppercase indigo eyebrow labels above section headings
-- Composition: sticky blurred navbar, centered-stack hero with a dashboard mock on the right, then centered section headers over card grids; alternating white and slate-50 section bands
-- Shape language: rounded-2xl cards, soft `shadow-sm` at rest lifting to `shadow-xl` with a -translate-y-1 on hover; pill badges; rounded-xl buttons
-- Anti-references (defaults this app must not drift toward): dark-mode-only developer dashboards, neon gradients on every element, stock-photo hero imagery, the starter's neutral gray placeholder theme, cramped table-first layouts on the public page
+### Primary Accents
+- **Indigo Accent:** `#4F46E5` (`indigo-600`) — Primary actions, brand highlights, and active navigation indicators.
+- **Indigo Glow / Light Accent:** `#6366F1` (`indigo-500`) to `#818CF8` (`indigo-400`) in dark mode.
+- **Violet Accent Gradient:** Linear transitions between Indigo (`#4F46E5`) and Violet (`#7C3AED`) for hero titles and focal stats.
 
-## Agent-Native is structural, not visual
+### Neutrals & Backgrounds
+- **Light Mode Surface:** Pure white (`#FFFFFF`) cards layered over cool slate (`#F8FAFC`, `slate-50`) canvas.
+- **Dark Mode Surface:** Slate 900 (`#0F172A`) base canvas with Slate 800 (`#1E293B`) elevated cards.
+- **Headings & Body Contrast:** Deep navy (`#0B1A35`) in light mode; Slate 100 (`#F1F5F9`) in dark mode.
+- **Borders & Dividers:** Subtle borders (`slate-200` in light, `slate-800` in dark) ensuring distinct card boundaries without visual clutter.
 
-This shell already meets the Agent-Native contract: data in SQL, actions as the
-single source of truth, application state for navigation/selection, and
-real-time sync. **Chat and the agent rail are opt-in, not default.** Build the
-product UI first. Add an `AgentSidebar`, a full-page chat route, or
-`sendToAgentChat` handoffs only when the user asks for agent interaction — and
-when you do, follow `agent-native-toolkit` and `frontend-design` → Agent
-Surface And Page Boundaries so the surfaces are wired correctly.
+### Status Semantic Colors
+- **Active / Paid / Success:** Emerald (`emerald-600` / `#059669`) with light emerald tint (`emerald-50` / `emerald-950`).
+- **Quotation / Confirmed / Pending:** Amber (`amber-600` / `#D97706`) with warm amber tint (`amber-50` / `amber-950`).
+- **Overdue / Alert / Closed:** Rose (`rose-600` / `#E11D48`) with light rose tint (`rose-50` / `rose-950`).
+- **Draft / Inactive / Paused:** Slate (`slate-500` / `#64748B`) with neutral tint (`slate-100` / `slate-800`).
 
-## Guardrails
+---
 
-- Keep semantic token names and shared component seams intact; express the
-  direction through token _values_, type, spacing, and composition — not by
-  forking the design system.
-- Density comes from data, not prose. Subtract explanatory chrome; never
-  subtract the visual craft that makes the app impressive.
-- Compare against real products in the chosen mode, not against the starter.
+## 3. Typography & Rhythm
+
+- **Font Family:** System font stack (`ui-sans-serif, system-ui, sans-serif`) with font smoothing for razor-sharp legibility on all displays.
+- **Headlines:** Tight-tracked (`tracking-tight`) weights ranging from `font-bold` (600) to `font-extrabold` (800).
+- **Eyebrow Tags:** Small, uppercase micro-labels (`text-xs font-semibold uppercase tracking-wider text-indigo-600 dark:text-indigo-400`) placed immediately above section headings.
+- **Data & Numeric Displays:** High-contrast tabular numbers for currency, invoice totals, and subscription counts.
+
+---
+
+## 4. Component Standards
+
+- **Cards & Containers:** `rounded-2xl` borders with subtle resting shadows (`shadow-sm`), transitioning smoothly (`transition-all duration-200`) to elevated shadows (`shadow-md` or `shadow-lg`) with slight lift (`-translate-y-0.5`) on interactive hover.
+- **Status Pills & Badges:** Rounded full-pill shapes (`rounded-full px-2.5 py-0.5 text-xs font-medium`) paired with semantic colors.
+- **Navigation:** Sticky top navbar featuring glassmorphic blur (`backdrop-blur-md bg-white/80 dark:bg-slate-900/80`) with active tab indicators.
+- **Modals & Overlays:** Centered dialogs with backdrop blur (`backdrop-blur-sm bg-black/40`), clean dismissal controls, and prominent action buttons.
+- **Form Controls:** Clean input fields with focused indigo border rings (`focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500`), descriptive helper labels, and immediate error validation feedback.
+
+---
+
+## 5. Theme Support (Light / Dark Mode)
+
+The application includes unified dark mode toggling managed through `ThemeContext`:
+- Controlled via `client/src/context/ThemeContext.jsx`.
+- Tailwind CSS 4 custom variant configured in `client/src/index.css`:
+  ```css
+  @custom-variant dark (&:where(.dark, .dark *));
+  ```
+- Instant persistence in browser `localStorage`.
+
+---
+
+## 6. Implementation Architecture
+
+- **Styles & Framework:** Tailwind CSS 4 with `@import "tailwindcss";` in `client/src/index.css`.
+- **Icons:** Modern SVG iconography from `lucide-react`.
+- **Responsiveness:** Mobile-first layout with responsive grid breakpoints (`sm:`, `md:`, `lg:`, `xl:`), collapsible side drawers, and responsive tables.
