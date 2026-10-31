@@ -51,7 +51,7 @@ const invoiceSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-// Compound indexes for <2s Finance Dashboard & Overdue queries
+// Compound indexes for <2s Finance Dashboard & Overdue queries!!
 invoiceSchema.index({ status: 1, dueDate: 1 });
 invoiceSchema.index({ customerId: 1, status: 1 });
 
