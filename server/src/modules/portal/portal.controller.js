@@ -152,10 +152,10 @@ exports.handleLifecycleAction = async (req, res) => {
                     message: 'This subscription is already closed.',
                 });
             }
-            if (!['ACTIVE', 'CONFIRMED'].includes(subscription.status)) {
+            if (subscription.status !== 'ACTIVE') {
                 return res.status(400).json({
                     success: false,
-                    message: 'Only active or confirmed subscriptions can be closed.',
+                    message: 'Only active subscriptions can be closed.',
                 });
             }
 

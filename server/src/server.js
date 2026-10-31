@@ -36,7 +36,7 @@ app.use('/api/catalog', catalogRoutes);
 app.use('/api/subscriptions', subscriptionRoutes);
 app.use('/api/billing', billingRoutes);
 
-const PORT = process.env.PORT || 5001;
+const PORT = process.env.PORT || 5000;
 
 async function start() {
   await connectDB();

@@ -86,11 +86,15 @@ const generateSubNumber = async () => {
     return `SUB-${String(count + 1).padStart(5, '0')}-${randomSuffix}`;
 };
 
-// Valid State Machine Transitions
+/**
+ * Strict Subscription State Machine Transitions:
+ * DRAFT → QUOTATION → CONFIRMED → ACTIVE → CLOSED
+ * No skipping allowed (e.g., cannot jump from DRAFT to CONFIRMED).
+ */
 const VALID_TRANSITIONS = {
-    DRAFT: ['QUOTATION', 'CONFIRMED', 'CLOSED'],
-    QUOTATION: ['CONFIRMED', 'CLOSED'],
-    CONFIRMED: ['ACTIVE', 'CLOSED'],
+    DRAFT: ['QUOTATION'],
+    QUOTATION: ['CONFIRMED'],
+    CONFIRMED: ['ACTIVE'],
     ACTIVE: ['CLOSED'],
     CLOSED: [], // Terminal unless renewed via lifecycle endpoint
 };

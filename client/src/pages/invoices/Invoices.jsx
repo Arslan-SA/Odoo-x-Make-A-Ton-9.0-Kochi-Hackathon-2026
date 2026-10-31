@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react'
 import {
   AlertCircle,
   CalendarClock,
+  CheckCircle2,
   CreditCard,
   FileText,
   Loader2,
+  Mail,
   PlayCircle,
+  Printer,
   RefreshCw,
+  XCircle,
 } from 'lucide-react'
 import InternalPage from '../../components/internal/InternalPage'
 import Modal, { ConfirmDialog } from '../../components/internal/Modal'
@@ -139,6 +143,7 @@ export default function Invoices() {
   const [detail, setDetail] = useState(null)
   const [detailLoading, setDetailLoading] = useState(false)
   const [detailError, setDetailError] = useState('')
+  const [actionBusy, setActionBusy] = useState(false)
 
   const [runConfirmOpen, setRunConfirmOpen] = useState(false)
   const [runBusy, setRunBusy] = useState(false)
@@ -430,6 +435,79 @@ export default function Invoices() {
               )}
             </div>
 
+            {/* Invoice Actions: Confirm, Cancel, Send, Print */}
+            <div className="flex flex-wrap items-center gap-2">
+              {detail.status === 'DRAFT' && (
+                <button
+                  type="button"
+                  disabled={actionBusy}
+                  onClick={async () => {
+                    setActionBusy(true)
+                    try {
+                      await billingApi.updateInvoiceStatus(detail._id, 'CONFIRMED')
+                      const { data } = await billingApi.getInvoiceById(detail._id)
+                      setDetail(data.data)
+                      setNotice(`Invoice ${detail.invNumber} confirmed.`)
+                      setReloadKey((v) => v + 1)
+                    } catch (err) {
+                      setDetailError(getApiError(err, 'Could not confirm invoice.'))
+                    } finally {
+                      setActionBusy(false)
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg bg-indigo-600 px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-indigo-500 disabled:cursor-not-allowed disabled:opacity-60"
+                >
+                  <CheckCircle2 className="size-3.5" aria-hidden="true" />
+                  Confirm
+                </button>
+              )}
+              {['DRAFT', 'CONFIRMED'].includes(detail.status) && (
+                <button
+                  type="button"
+                  disabled={actionBusy}
+                  onClick={async () => {
+                    setActionBusy(true)
+                    try {
+                      await billingApi.updateInvoiceStatus(detail._id, 'CANCELLED')
+                      const { data } = await billingApi.getInvoiceById(detail._id)
+                      setDetail(data.data)
+                      setNotice(`Invoice ${detail.invNumber} cancelled.`)
+                      setReloadKey((v) => v + 1)
+                    } catch (err) {
+                      setDetailError(getApiError(err, 'Could not cancel invoice.'))
+                    } finally {
+                      setActionBusy(false)
+                    }
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 px-3 py-2 text-xs font-medium text-rose-700 transition-colors hover:bg-rose-50 disabled:cursor-not-allowed disabled:opacity-60 dark:border-rose-900/50 dark:text-rose-300 dark:hover:bg-rose-950/30"
+                >
+                  <XCircle className="size-3.5" aria-hidden="true" />
+                  Cancel
+                </button>
+              )}
+              {detail.status === 'CONFIRMED' && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setNotice(`Invoice ${detail.invNumber} sent to ${detail.customerId?.email || 'customer'}.`)
+                  }}
+                  className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+                >
+                  <Mail className="size-3.5" aria-hidden="true" />
+                  Send
+                </button>
+              )}
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-2 text-xs font-medium text-slate-600 transition-colors hover:bg-slate-50 dark:border-zinc-800 dark:text-zinc-300 dark:hover:bg-zinc-800"
+              >
+                <Printer className="size-3.5" aria-hidden="true" />
+                Print
+              </button>
+              {actionBusy && <Loader2 className="size-4 animate-spin text-indigo-600 dark:text-indigo-400" aria-label="Updating" />}
+            </div>
+
             <div>
               <h3 className="mb-2 text-sm font-semibold text-[#0B1A35] dark:text-white">Line items</h3>
               <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-zinc-800">
@@ -577,7 +655,7 @@ export default function Invoices() {
               className={inputClass}
             >
               <option value="BANK_TRANSFER">Bank Transfer (NEFT/RTGS/IMPS)</option>
-              <option value="CREDIT_CARD">Credit / Debit Card</option>
+              <option value="CARD">Credit / Debit Card</option>
               <option value="UPI">UPI / NetBanking</option>
               <option value="CASH">Cash</option>
               <option value="CHEQUE">Cheque</option>

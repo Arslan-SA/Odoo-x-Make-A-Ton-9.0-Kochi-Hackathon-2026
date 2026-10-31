@@ -1,8 +1,9 @@
-const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MIN_LENGTH = 9;
 
 /**
  * Returns the first password-policy violation, or null when the password is valid.
- * Policy: at least 8 characters, one uppercase, one lowercase and one special character.
+ * Policy: minimum 9 characters, one uppercase, one lowercase and one special character.
+ * Regex equivalent: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[\W_]).{9,}$/
  */
 const validatePassword = (password) => {
     if (typeof password !== 'string' || password.length === 0) {

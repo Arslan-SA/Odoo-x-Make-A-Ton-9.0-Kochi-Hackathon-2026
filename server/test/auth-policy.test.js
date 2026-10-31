@@ -17,8 +17,8 @@ test('rejects an empty password', () => {
     assert.equal(validatePassword(null), 'Password is required');
 });
 
-test('rejects a password shorter than eight characters', () => {
-    assert.match(validatePassword('Ab@1'), /at least 8 characters/);
+test('rejects a password shorter than nine characters', () => {
+    assert.match(validatePassword('Ab@1'), /at least 9 characters/);
 });
 
 test('rejects a password without an uppercase letter', () => {

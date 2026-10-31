@@ -668,7 +668,7 @@ export default function Subscriptions() {
     plan?.canCloseEarly === false &&
     (!detail.expiryDate || new Date(detail.expiryDate) > new Date())
   const canClose =
-    ['ACTIVE', 'CONFIRMED'].includes(detail?.status) && !closeBlocked
+    detail?.status === 'ACTIVE' && !closeBlocked
 
   return (
     <InternalPage
