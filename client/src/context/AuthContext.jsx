@@ -48,18 +48,45 @@ export function AuthProvider({ children }) {
 
   const login = useCallback(async (credentials) => {
     const { data } = await authApi.login(credentials)
-    localStorage.setItem(TOKEN_KEY, data.data.token)
-    setUser(data.data.user)
-    setLoading(false)
-    return data.data.user
+    if (data.requireVerification) {
+      return data
+    }
+    if (data.data?.token) {
+      localStorage.setItem(TOKEN_KEY, data.data.token)
+      setUser(data.data.user)
+      setLoading(false)
+      return data.data.user
+    }
+    return data
   }, [])
 
   const register = useCallback(async (payload) => {
     const { data } = await authApi.register(payload)
-    localStorage.setItem(TOKEN_KEY, data.data.token)
-    setUser(data.data.user)
-    setLoading(false)
-    return data.data.user
+    if (data.requireVerification) {
+      return data
+    }
+    if (data.data?.token) {
+      localStorage.setItem(TOKEN_KEY, data.data.token)
+      setUser(data.data.user)
+      setLoading(false)
+      return data.data.user
+    }
+    return data
+  }, [])
+
+  const verifyOtp = useCallback(async ({ email, otp }) => {
+    const { data } = await authApi.verifyOtp({ email, otp })
+    if (data.data?.token) {
+      localStorage.setItem(TOKEN_KEY, data.data.token)
+      setUser(data.data.user)
+      setLoading(false)
+    }
+    return data
+  }, [])
+
+  const sendOtp = useCallback(async ({ email }) => {
+    const { data } = await authApi.sendOtp({ email })
+    return data
   }, [])
 
   const logout = useCallback(async () => {
@@ -77,10 +104,12 @@ export function AuthProvider({ children }) {
       loading,
       login,
       register,
+      verifyOtp,
+      sendOtp,
       logout,
       isAuthenticated: Boolean(user),
     }),
-    [user, loading, login, register, logout]
+    [user, loading, login, register, verifyOtp, sendOtp, logout]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

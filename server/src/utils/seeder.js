@@ -27,6 +27,7 @@ const DEMO_USERS = [
     password: 'Admin@12345',
     role: 'admin',
     company: 'Brightloop',
+    isEmailVerified: true,
   },
   {
     name: 'Demo Customer',
@@ -34,6 +35,7 @@ const DEMO_USERS = [
     password: 'Customer@12345',
     role: 'customer',
     company: 'Acme Retail',
+    isEmailVerified: true,
   },
   {
     name: 'Demo Staff',
@@ -41,6 +43,7 @@ const DEMO_USERS = [
     password: 'Staff@12345',
     role: 'staff',
     company: 'Brightloop',
+    isEmailVerified: true,
   },
 ];
 
