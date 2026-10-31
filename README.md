@@ -1,1 +1,2 @@
-# Odoo-x-Make-A-Ton-9.0-Kochi-Hackathon-2026
+# Brightloop - Subscription Management System
+Odoo x Make-A-Ton 9.0 Kochi Hackathon 2026
