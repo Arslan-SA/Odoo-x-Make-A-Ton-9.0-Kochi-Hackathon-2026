@@ -62,7 +62,7 @@ export default function Login() {
       {/* Segmented Control: Create account / Sign in */}
       <div className="mt-5 mb-5 flex rounded-xl bg-[#1c1c22] p-1 border border-zinc-800/80">
         <Link
-          to="/register"
+          to="/signup"
           className="flex-1 rounded-lg py-1.5 text-center text-xs font-medium text-zinc-400 transition hover:text-white"
         >
           Create account

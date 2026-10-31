@@ -51,10 +51,12 @@ function NavItem({ item, collapsed, onNavigate }) {
   )
 }
 
-function SidebarNav({ collapsed, onNavigate }) {
+function SidebarNav({ collapsed, onNavigate, role }) {
+  const items = DASHBOARD_NAV.filter((item) => !item.roles || item.roles.includes(role))
+
   return (
     <nav aria-label="Main" className="space-y-1 px-3">
-      {DASHBOARD_NAV.map((item) => (
+      {items.map((item) => (
         <NavItem key={item.label} item={item} collapsed={collapsed} onNavigate={onNavigate} />
       ))}
     </nav>
@@ -100,7 +102,7 @@ export function Sidebar({ user }) {
         </button>
       </div>
       <div className="flex-1 overflow-y-auto py-4">
-        <SidebarNav collapsed={collapsed} />
+        <SidebarNav collapsed={collapsed} role={user?.role} />
       </div>
       <ProfileSummary user={user} collapsed={collapsed} />
     </aside>
@@ -139,7 +141,7 @@ export function MobileNav({ user }) {
               </button>
             </div>
             <div className="flex-1 overflow-y-auto py-4">
-              <SidebarNav collapsed={false} onNavigate={() => setOpen(false)} />
+              <SidebarNav collapsed={false} onNavigate={() => setOpen(false)} role={user?.role} />
             </div>
             <ProfileSummary user={user} collapsed={false} />
           </div>

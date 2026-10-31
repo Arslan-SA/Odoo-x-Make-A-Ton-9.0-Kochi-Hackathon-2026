@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowLeft, Globe, HelpCircle } from 'lucide-react'
+import { ArrowLeft } from 'lucide-react'
+
+const DEMO_ACCOUNTS = [
+  { role: 'Admin', email: 'admin@brightloop.dev', password: 'Admin@12345' },
+  { role: 'Staff', email: 'staff@brightloop.dev', password: 'Staff@12345' },
+  { role: 'Customer', email: 'customer@brightloop.dev', password: 'Customer@12345' },
+]
 
 export default function AuthLayout({ children }) {
   const [showHelp, setShowHelp] = useState(false)
@@ -120,11 +126,13 @@ export default function AuthLayout({ children }) {
           {showHelp && (
             <div className="absolute bottom-9 right-0 w-64 rounded-xl border border-zinc-800 bg-[#141418] p-3 text-xs text-zinc-300 shadow-xl z-50">
               <p className="font-semibold text-white mb-1">Demo Credentials</p>
-              <div className="space-y-1 text-zinc-400 font-mono text-[11px]">
-                <p>admin@brightloop.dev</p>
-                <p>staff@brightloop.dev</p>
-                <p>customer@brightloop.dev</p>
-                <p className="text-zinc-500 mt-1">Pass: Admin@12345</p>
+              <div className="space-y-1.5 text-zinc-400 font-mono text-[10px] leading-4">
+                {DEMO_ACCOUNTS.map((account) => (
+                  <div key={account.email}>
+                    <p className="text-zinc-300">{account.role}</p>
+                    <p>{account.email} / {account.password}</p>
+                  </div>
+                ))}
               </div>
             </div>
           )}
